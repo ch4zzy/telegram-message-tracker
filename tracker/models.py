@@ -1,21 +1,65 @@
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
     """Custom user model."""
 
-    groups = models.ManyToManyField(
-        Group,
-        related_name="custom_user_groups",  # Unique related name
-        blank=True,
-        help_text="The groups this user belongs to.",
-        verbose_name="groups",
+
+class TargetChannel(models.Model):
+    """
+    Target channel model.
+    Used to store the target channel information.
+    """
+
+    name = models.CharField(max_length=16)
+    source_link = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    auto_post = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Target -> {self.name}"
+
+
+class SourceChannel(models.Model):
+    """
+    Source channel model.
+    Used to store the source channel information.
+    """
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="channels"
     )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name="custom_user_permissions",  # Unique related name
-        blank=True,
-        help_text="Specific permissions for this user.",
-        verbose_name="user permissions",
+    target_channel = models.ManyToManyField(
+        TargetChannel, related_name="source_channels"
     )
+    name = models.CharField(max_length=16)
+    source_link = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    active_following = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Source -> {self.name}"
+
+
+class Post(models.Model):
+    """Message model."""
+
+    channel = models.ForeignKey(
+        SourceChannel, on_delete=models.CASCADE, related_name="messages"
+    )
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[
+            ("pending", "Pending"),
+            ("posted", "Posted"),
+            ("rejected", "Rejected"),
+        ],
+        default="pending",
+    )
+
+    def __str__(self):
+        return f"{self.channel.user} -> {self.channel}"
