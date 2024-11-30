@@ -12,6 +12,9 @@ class TargetChannel(models.Model):
     Used to store the target channel information.
     """
 
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="target_channels"
+    )
     name = models.CharField(max_length=16)
     source_link = models.CharField(max_length=64, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,7 +31,7 @@ class SourceChannel(models.Model):
     """
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="channels"
+        User, on_delete=models.CASCADE, related_name="source_channels"
     )
     target_channel = models.ManyToManyField(
         TargetChannel, related_name="source_channels"
