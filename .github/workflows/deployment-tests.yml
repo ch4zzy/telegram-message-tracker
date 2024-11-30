@@ -1,4 +1,4 @@
-name: Docker Compose Deployment Check
+name: Docker Compose Tests Check
 
 on:
   pull_request:
@@ -30,4 +30,4 @@ jobs:
 
       - name: Run Tests
         run: |
-          docker-compose exec -T django python manage.py pytest
+          docker-compose exec -T django pytest
