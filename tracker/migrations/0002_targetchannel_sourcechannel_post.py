@@ -3,6 +3,7 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+from ..validators import validate_url
 
 
 class Migration(migrations.Migration):
@@ -17,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=16)),
-                ('source_link', models.CharField(max_length=64, unique=True)),
+                ('source_link', models.URLField(max_length=128, unique=True, validators=[validate_url])),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('auto_post', models.BooleanField(default=False)),
             ],
@@ -27,7 +28,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=16)),
-                ('source_link', models.CharField(max_length=64, unique=True)),
+                ('source_link', models.URLField(max_length=128, unique=True, validators=[validate_url])),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('active_following', models.BooleanField(default=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='channels', to=settings.AUTH_USER_MODEL)),
