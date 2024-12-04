@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .validators import validate_url
+
 
 class User(AbstractUser):
     """Custom user model."""
@@ -16,7 +18,9 @@ class TargetChannel(models.Model):
         User, on_delete=models.CASCADE, related_name="target_channels"
     )
     name = models.CharField(max_length=16)
-    source_link = models.CharField(max_length=64, unique=True)
+    source_link = models.URLField(
+        max_length=128, unique=True, validators=[validate_url]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     auto_post = models.BooleanField(default=False)
 
@@ -37,7 +41,9 @@ class SourceChannel(models.Model):
         TargetChannel, related_name="source_channels"
     )
     name = models.CharField(max_length=16)
-    source_link = models.CharField(max_length=64, unique=True)
+    source_link = models.URLField(
+        max_length=128, unique=True, validators=[validate_url]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     active_following = models.BooleanField(default=True)
 
