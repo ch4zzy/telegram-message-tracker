@@ -1,4 +1,4 @@
-from core.celery import app 
+from core.celery import app
 from tracker.validators import validate_status_200
 
 
