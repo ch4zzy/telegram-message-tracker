@@ -45,6 +45,11 @@ else:
 
     ALLOWED_HOSTS = ["*"]
 
+    REDIS_URL = env("REDIS_URL")
+    API_ID = env("API_ID")
+    API_HASH = env("API_HASH")
+    BOT_TOKEN = env("BOT_TOKEN")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -54,6 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_beat",
     # local
     "tracker",
 ]
@@ -147,3 +153,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "tracker.User"
+
+
+# Celery
+CELERY_BROKER_URL = REDIS_URL
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"

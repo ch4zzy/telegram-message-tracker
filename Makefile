@@ -12,6 +12,10 @@ create-env:
 	@echo 'POSTGRES_PASSWORD="postgres"' >> .env
 	@echo 'POSTGRES_HOST="db"' >> .env
 	@echo 'POSTGRES_PORT="5432"' >> .env
+	@echo 'REDIS_URL="redis://redis:6379/0"' >> .env
+	@echo 'API_ID=123' >> .env
+	@echo 'API_HASH=123' >> .env
+	@echo 'BOT_TOKEN=pass'>> .env
 	@echo ".env file created successfully."
 
 build:
