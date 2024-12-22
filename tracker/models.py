@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .tasks import async_validate_status_200
 from .validators import validate_url
 
 
@@ -22,10 +21,11 @@ class TargetChannel(models.Model):
     source_link = models.URLField(
         max_length=128,
         unique=True,
-        validators=[validate_url, async_validate_status_200],
+        validators=[validate_url],
     )
     created_at = models.DateTimeField(auto_now_add=True)
     auto_post = models.BooleanField(default=False)
+    verified_status = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Target -> {self.name}"
@@ -47,10 +47,11 @@ class SourceChannel(models.Model):
     source_link = models.URLField(
         max_length=128,
         unique=True,
-        validators=[validate_url, async_validate_status_200],
+        validators=[validate_url],
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    active_following = models.BooleanField(default=True)
+    active_following = models.BooleanField(default=False)
+    verified_status = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Source -> {self.name}"
