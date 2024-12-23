@@ -13,8 +13,9 @@ services:
         depends_on:
             - db
             - redis
-            - celery
-            - celery-beat
+            - celery-management
+            - celery-listener
+            - celery-poster
 
     db:
         image: postgres:17-alpine
@@ -28,11 +29,37 @@ services:
         ports:
             - "6379:6379"
 
-    celery:
+    celery-management:
         build:
             context: .
             dockerfile: ./docker/celery/Dockerfile
-        command: celery -A core worker --loglevel=info
+        command: celery -A core worker --loglevel=info -Q management -n management@%h
+        volumes:
+            - .:/code
+        env_file:
+            - .env
+        depends_on:
+            - db
+            - redis
+
+    celery-listener:
+        build:
+            context: .
+            dockerfile: ./docker/celery/Dockerfile
+        command: celery -A core worker --loglevel=info -Q listener -n listener@%h
+        volumes:
+            - .:/code
+        env_file:
+            - .env
+        depends_on:
+            - db
+            - redis
+
+    celery-poster:
+        build:
+            context: .
+            dockerfile: ./docker/celery/Dockerfile
+        command: celery -A core worker --loglevel=info -Q poster -n poster@%h
         volumes:
             - .:/code
         env_file:
