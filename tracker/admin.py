@@ -11,14 +11,27 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(TargetChannel)
 class TargetChannelAdmin(admin.ModelAdmin):
-    list_display = ("name", "source_link", "created_at", "auto_post")
+    list_display = (
+        "name",
+        "source_link",
+        "created_at",
+        "auto_post",
+        "verified_status",
+        "admin_status",
+    )
     search_fields = ("name", "source_link")
     list_filter = ("auto_post",)
 
 
 @admin.register(SourceChannel)
 class SourceChannelAdmin(admin.ModelAdmin):
-    list_display = ("name", "source_link", "created_at", "active_following")
+    list_display = (
+        "name",
+        "source_link",
+        "created_at",
+        "active_following",
+        "verified_status",
+    )
     search_fields = ("name", "source_link")
     list_filter = ("active_following",)
 
