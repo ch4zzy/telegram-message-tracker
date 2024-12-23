@@ -3,10 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import SourceChannel, TargetChannel
-from .tasks import (  # noqa
-    validate_admin_bot_task,
-    validate_link_task,
-)
+from .tasks import validate_admin_bot_task, validate_link_task  # noqa
 
 
 @receiver(post_save, sender=SourceChannel)
