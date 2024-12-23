@@ -49,6 +49,11 @@ else:
     API_ID = env("API_ID")
     API_HASH = env("API_HASH")
     BOT_TOKEN = env("BOT_TOKEN")
+    TELEGRAM_SESSION = env("TELEGRAM_SESSION")
+
+    API_BOT_ID = env("API_BOT_ID")
+    API_BOT_HASH = env("API_BOT_HASH")
+    BOT_TELEGRAM_SESSION = env("BOT_TELEGRAM_SESSION")
 
 # Application definition
 
