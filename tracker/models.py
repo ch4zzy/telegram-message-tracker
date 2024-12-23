@@ -26,6 +26,7 @@ class TargetChannel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     auto_post = models.BooleanField(default=False)
     verified_status = models.BooleanField(default=False)
+    admin_status = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Target -> {self.name}"
