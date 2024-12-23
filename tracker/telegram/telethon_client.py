@@ -1,7 +1,8 @@
 import asyncio
+
+from celery.signals import worker_process_init, worker_shutdown
 from telethon import TelegramClient
 from telethon.sessions import StringSession
-from celery.signals import worker_process_init, worker_shutdown
 
 
 class TelethonClient:
@@ -52,12 +53,10 @@ class TelethonClient:
         if self.client.is_connected():
             return self.client
         raise RuntimeError("Telegram client is not connected.")
-    
+
     def set_client(self):
         self.on_worker_start()
-    
+
     def get_loop(self):
         """Returns the event loop."""
         return self.loop
-    
-
