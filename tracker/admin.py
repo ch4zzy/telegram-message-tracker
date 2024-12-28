@@ -25,6 +25,9 @@ class TargetChannelAdmin(admin.ModelAdmin):
 
 @admin.register(SourceChannel)
 class SourceChannelAdmin(admin.ModelAdmin):
+    from .forms import SourceChannelForm
+
+    form = SourceChannelForm
     list_display = (
         "name",
         "source_link",
