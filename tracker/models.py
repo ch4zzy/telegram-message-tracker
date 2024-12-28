@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import m2m_changed
 
-from .validators import validate_url
+from .validators import validate_source_target_unique, validate_url
 
 
 class User(AbstractUser):
@@ -79,3 +80,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.channel.user} -> {self.channel}"
+
+
+m2m_changed.connect(
+    validate_source_target_unique,
+    sender=SourceChannel.target_channel.through,
+)
