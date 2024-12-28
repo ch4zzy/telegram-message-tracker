@@ -1,21 +1,20 @@
 from django import forms
+
 from .models import SourceChannel, TargetChannel
 from .validators import validate_source_target_unique
 
 
 class SourceChannelForm(forms.ModelForm):
     target_channel = forms.ModelMultipleChoiceField(
-        queryset=TargetChannel.objects.all(), required=False,
-        widget=forms.CheckboxSelectMultiple()
+        queryset=TargetChannel.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple(),
     )
 
     class Meta:
         model = SourceChannel
-        fields = '__all__'
-        widget = {
-            'target_channel': forms.CheckboxSelectMultiple
-        }
-
+        fields = "__all__"
+        widget = {"target_channel": forms.CheckboxSelectMultiple}
 
     def clean(self):
         cleaned_data = super().clean()
@@ -27,4 +26,3 @@ class SourceChannelForm(forms.ModelForm):
             if error_message:
                 self.add_error("target_channel", error_message)
         return cleaned_data
-    
