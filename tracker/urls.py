@@ -1,5 +1,7 @@
 from django.urls import path
+
 from . import views
+
 urlpatterns = [
     path("slist/", views.source_channel_list, name="source_channel_list"),
 ]
