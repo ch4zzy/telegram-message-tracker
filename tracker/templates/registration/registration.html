@@ -1,0 +1,56 @@
+{% extends 'registration/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                <h2 class="mb-4 text-center">Register</h2>
+                <!--
+                <div class="mb-3">
+                    <label for="registerName" class="form-label">First name</label>
+                    <input type="text" class="form-control" id="firstName" name="first_name" required>
+                    <label for="registerName" class="form-label">Last name</label>
+                    <input type="text" class="form-control" id="lastName" name="last_name" required>
+                </div>
+                -->
+                <div class="mb-3">
+                    <label for="registerEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="registerEmail" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="registerUsername" name="username"
+                           hx-post="{% url 'check_username' %}"
+                           hx-trigger="keyup changed delay:500ms"
+                           hx-target="#username-status"
+                           hx-swap="innerHTML"
+                           hx-vals="{'username': this.value}"
+                           hx-indicator="#username-indicator"
+                           hx-headers="{'HX-Trigger': 'update-input'}"
+                           required>
+                    <div id="username-status"></div>
+                    <div id="username-indicator"
+                </div>
+                <div class="mb-3">
+                    <label for="registerPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" name="password1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="password2" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                    <label class="form-check-label" for="agreeTerms">I agree to the Terms and Conditions</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+                <div class="mt-3 text-center">
+                    <a href="" class="text-muted">Already have an account? Login here</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
