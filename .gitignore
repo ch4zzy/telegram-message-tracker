@@ -29,5 +29,5 @@ venv/
 *.ntvs*
 *.njsproj
 *.sln
-static/
 *.pdf
+assets/
