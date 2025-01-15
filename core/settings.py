@@ -14,7 +14,13 @@ import os
 from pathlib import Path
 
 import environ
-from django.conf.global_settings import ALLOWED_HOSTS, SECRET_KEY
+from django.conf.global_settings import (
+    ALLOWED_HOSTS,
+    LOGOUT_REDIRECT_URL,
+    SECRET_KEY,
+    STATIC_ROOT,
+    STATICFILES_DIRS,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,6 +71,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_celery_beat",
+    "django_htmx",
     # local
     "tracker",
 ]
@@ -77,6 +84,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -149,7 +157,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # noqa F811
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")  # noqa F811
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -163,3 +173,9 @@ AUTH_USER_MODEL = "tracker.User"
 # Celery
 CELERY_BROKER_URL = REDIS_URL
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
+
+
+# LOGIN
+
+LOGIN_REDIRECT_URL = "/slist"  # noqa F811
+LOGOUT_REDIRECT_URL = "/login"  # noqa F811
