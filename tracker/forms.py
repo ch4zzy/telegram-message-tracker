@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import SourceChannel, TargetChannel
+from .models import SourceChannel, TargetChannel, User
 from .validators import validate_source_target_unique
 
 
@@ -31,7 +30,6 @@ class SourceChannelForm(forms.ModelForm):
 
 
 class SignUpForm(UserCreationForm):
-    username = forms.CharField(max_length=30, required=True, label="Username")
     email = forms.EmailField(
         max_length=254, required=True, help_text="Enter a valid email address."
     )
@@ -41,8 +39,8 @@ class SignUpForm(UserCreationForm):
     )
 
     class Meta:
-        model = get_user_model()
-        fields = ["username", "email", "password1", "password2"]
+        model = User
+        fields = ["email", "password1", "password2"]
 
     def match_password(self):
         cd = self.cleaned_data
