@@ -7,13 +7,9 @@ from .models import SourceChannel
 
 
 def signup(request):
-    print(request.method)
     if request.method == "POST":
-        print(request.POST)
         form = SignUpForm(request.POST)
-        print(form.errors)
         if form.is_valid():
-            print(form.cleaned_data, form.errors)
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password1"])
             user.save()
@@ -36,4 +32,14 @@ def check_username(request):
         return HttpResponse(response)
     else:
         response = '<span class="text-success">Username available</span>'
+        return HttpResponse(response)
+
+
+def check_email(request):
+    email = request.POST.get("email")
+    if get_user_model().objects.filter(email=email).exists():
+        response = '<span class="text-danger">Email already exists</span>'
+        return HttpResponse(response)
+    else:
+        response = '<span class="text-success">Email available</span>'
         return HttpResponse(response)
