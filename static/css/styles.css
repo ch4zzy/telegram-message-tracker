@@ -24,3 +24,15 @@ body {
     background-color: #555;
     border-color: #555;
 }
+
+.form-control {
+    transition: box-shadow 0.3s ease;
+}
+
+.form-control.match {
+    box-shadow: 0 0 5px 2px rgba(0, 255, 0, 0.5);
+}
+
+.form-control.no-match {
+    box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.5);
+}
