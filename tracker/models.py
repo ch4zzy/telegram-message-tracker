@@ -8,6 +8,14 @@ from .validators import validate_source_target_unique, validate_url
 class User(AbstractUser):
     """Custom user model."""
 
+    email = models.EmailField(unique=True, blank=True, null=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
+    def __str__(self):
+        return self.email
+
 
 class TargetChannel(models.Model):
     """
