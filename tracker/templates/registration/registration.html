@@ -10,13 +10,13 @@
                     <label for="registerEmail" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="registerEmail" name="email"
                            hx-post="{% url 'check_email' %}"
-                           hx-trigger="blur"
+                           hx-trigger="blur delay:500ms"
                            hx-target="#email-status"
                            hx-indicator="#loading-indicator"
                            hx-swap="innerHTML"
                            required>
                     <div id="email-status"></div>
-                    <div id="loading-indicator" style="display:none;">Загрузка...</div>
+                    <div id="loading-indicator" style="display:none;">Loading...</div>
                 </div>
                 <!--
                 <div class="mb-3">
