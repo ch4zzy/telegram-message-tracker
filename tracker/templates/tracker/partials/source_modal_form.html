@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="formModalLabel">Add Source Channel</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form hx-post="{% url 'create_source' %}" method="post"
+          hx-target="#source-list" hx-swap="outerHTML" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Channel Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+            <div class="invalid-feedback">Please provide a channel name.</div>
+        </div>
+        <div class="mb-3">
+            <label for="source_link" class="form-label">Source Link</label>
+            <input type="url" class="form-control" id="source_link" name="source_link" required>
+            <div class="invalid-feedback">Please provide a valid URL.</div>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="active_following" name="active_following">
+            <label class="form-check-label" for="active_following">Active Following</label>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
