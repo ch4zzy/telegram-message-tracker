@@ -1,0 +1,6 @@
+<div id="source-list">
+    {% for channel in page_obj %}
+        {% include "tracker/partials/source_element.html" %}
+    {% endfor %}
+    {% include "tracker/partials/pagination_control.html" %}
+</div>
