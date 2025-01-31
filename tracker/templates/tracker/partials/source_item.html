@@ -1,0 +1,25 @@
+<div id="channel-{{ channel.id }}">
+    {% if channel.verified_status %}
+        <span class="btn btn-sm btn-success me-2 btn-disabled">
+            Verified status:
+            <i class="bi bi-check ms-1"></i>
+        </span>
+    {% else %}
+        <span class="btn btn-sm btn-danger me-2 btn-disabled">
+            Verified status:
+            <i class="bi bi-x ms-1"></i>
+        </span>
+        <span class="btn btn-sm btn-dark me-2"
+            hx-get="{% url 'check_source_link' %}?param={{ channel.id }}"
+            hx-trigger="click"
+            hx-target="#channel-{{ channel.id }}"
+            hx-swap="innerHTML">
+            <i class="bi bi-arrow-clockwise ml-1"></i>
+        </span>
+    {% endif %}
+</div>
+
+<!--
+TODO:
+ create a status checking mechanics
+-->
