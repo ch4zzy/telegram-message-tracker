@@ -36,3 +36,14 @@ body {
 .form-control.no-match {
     box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.5);
 }
+
+.btn-disabled {
+    pointer-events: none;
+    opacity: 1;
+}
+
+.blur {
+    filter: blur(5px);
+    opacity: 0.5;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
