@@ -1,0 +1,25 @@
+<!-- Channel Block -->
+<div id="channel-{{ channel.pk }}">
+    {% if channel.verified_status %}
+        <span class="btn btn-sm btn-success me-2 btn-disabled">
+            Verified status:
+            <i class="bi bi-check ms-1"></i>
+        </span>
+    {% else %}
+        <span class="btn btn-sm btn-danger me-2 btn-disabled">
+            Verified status:
+            <i class="bi bi-x ms-1"></i>
+        </span>
+        <span id="create-polling-div" class="btn btn-sm btn-dark me-2"
+              hx-get="{% url 'check_source_link' channel.pk %}"
+              hx-trigger="click">
+
+    <i class="bi bi-arrow-clockwise ml-1"></i>
+</span>
+{#        <div id="polling-container-{{ channel.pk }}"#}
+{#             hx-get="{% url 'check_task_status' channel.pk %}"#}
+{#             hx-target="#channel-{{ channel.pk }}"#}
+{#             hx-trigger="load, every 5s"#}
+{#             hx-swap="outerHTML"></div>#}
+    {% endif %}
+</div>
