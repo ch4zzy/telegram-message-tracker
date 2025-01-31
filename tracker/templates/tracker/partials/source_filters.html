@@ -1,0 +1,44 @@
+<div class="mt-3">
+    <form class="d-flex">
+        <input class="form-control me-2" id="search-input" type="search" placeholder="Search by name"
+               aria-label="Search" name="query"
+               hx-get="{% url 'source_search' %}"
+               hx-target="#source-list"
+               hx-trigger="keyup changed delay:1500ms"
+        >
+        <button class="btn btn-outline-primary" type="submit"
+                hx-get="{% url 'source_search' %}"
+                hx-target="#source-list"
+                hx-include="#search-input">Search
+        </button>
+    </form>
+</div>
+<!--
+TODO:
+Realize the following filters backend logic:
+<div class="mt-3">
+    <select class="form-select" aria-label="Filter by date">
+        <option selected>Filter by date</option>
+        <option value="1">Today</option>
+        <option value="2">This week</option>
+        <option value="3">This month</option>
+        <option value="4">This year</option>
+    </select>
+</div>
+
+<div class="mt-3">
+    <select class="form-select" aria-label="Active following:">
+        <option selected>Active following:</option>
+        <option value="1">True</option>
+        <option value="2">False</option>
+    </select>
+</div>
+
+<div class="mt-3">
+    <select class="form-select" aria-label="Verified status:">
+        <option selected>Verified status:</option>
+        <option value="1">True</option>
+        <option value="2">False</option>
+    </select>
+</div>
+-->
