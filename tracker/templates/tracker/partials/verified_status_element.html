@@ -12,14 +12,17 @@
         </span>
         <span id="create-polling-div" class="btn btn-sm btn-dark me-2"
               hx-get="{% url 'check_source_link' channel.pk %}"
-              hx-trigger="click">
-
+              hx-trigger="click"
+              hx-target="#channel-{{ channel.pk }}"
+              hx-swap="outerHTML">
     <i class="bi bi-arrow-clockwise ml-1"></i>
+        <!-- TODO: Hotfix, should be changed next time -->
+        {% if task_id %}
+            <div id="additional-request" hx-get="{% url 'check_task_status' channel.pk %}"
+            hx-target="#channel-{{ channel.pk }}"
+            hx-trigger="load delay:1s"
+            hx-swap="outerHTML"></div>
+            {% endif %}
 </span>
-{#        <div id="polling-container-{{ channel.pk }}"#}
-{#             hx-get="{% url 'check_task_status' channel.pk %}"#}
-{#             hx-target="#channel-{{ channel.pk }}"#}
-{#             hx-trigger="load, every 5s"#}
-{#             hx-swap="outerHTML"></div>#}
     {% endif %}
 </div>
