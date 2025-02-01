@@ -8,7 +8,7 @@
     {% else %}
         <span class="btn btn-sm btn-danger me-2 btn-disabled">
             Verified status:
-            <i class="bi bi-x ms-1"></i>
+            <i class="bi bi-exclamation-triangle"></i>
         </span>
         <span id="create-polling-div" class="btn btn-sm btn-dark me-2"
               hx-get="{% url 'check_source_link' channel.pk %}"
@@ -22,7 +22,7 @@
             hx-target="#channel-{{ channel.pk }}"
             hx-trigger="load delay:1s"
             hx-swap="outerHTML"></div>
-            {% endif %}
+        {% endif %}
 </span>
     {% endif %}
 </div>
