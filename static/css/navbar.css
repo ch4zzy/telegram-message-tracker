@@ -1,0 +1,18 @@
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.navbar {
+    background-color: #333;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #fff !important;
+}
+
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}

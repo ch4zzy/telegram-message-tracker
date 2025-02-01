@@ -1,0 +1,24 @@
+<div id="active-following-{{ channel.pk }}">
+    <!-- Active Following Button -->
+    {% if channel.active_following %}
+        <span
+            hx-post="{% url 'update_source_status' channel.pk %}"
+            hx-target="#active-following-{{ channel.pk }}"
+            hx-swap="outerHTML"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            class="btn btn-sm btn-success me-2">
+            Active following:
+            <i class="bi bi-check ms-1"></i>
+        </span>
+    {% else %}
+        <span
+            hx-post="{% url 'update_source_status' channel.pk %}"
+            hx-target="#active-following-{{ channel.pk }}"
+            hx-swap="outerHTML"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            class="btn btn-sm btn-danger me-2">
+            Active following:
+            <i class="bi bi-x ms-1"></i>
+        </span>
+    {% endif %}
+</div>
