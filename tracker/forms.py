@@ -47,3 +47,15 @@ class SignUpForm(UserCreationForm):
         if cd["password1"] != cd["password2"]:
             raise forms.ValidationError("Passwords dont match.")
         return cd["password2"]
+
+
+class UpdateSourceListForm(forms.ModelForm):
+    class Meta:
+        model = SourceChannel
+        fields = ["name", "source_link"]
+
+
+class CreateSourceChannelForm(forms.ModelForm):
+    class Meta:
+        model = SourceChannel
+        fields = ["name", "source_link", "active_following"]
