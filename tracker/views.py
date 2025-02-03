@@ -4,8 +4,14 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import CreateSourceChannelForm, SignUpForm, UpdateSourceListForm
-from .models import SourceChannel
+from .forms import (
+    CreateSourceChannelForm,
+    CreateTargetChannelForm,
+    SignUpForm,
+    UpdateSourceListForm,
+    UpdateTargetListForm,
+)
+from .models import SourceChannel, TargetChannel
 
 
 def paginate_queryset(queryset, request, page_size):
@@ -49,6 +55,21 @@ def source_list(request):
         return render(request, "tracker/source_page.html", context)
 
 
+def target_list(request):
+    """
+    Display a list of target channels
+    """
+    channels = TargetChannel.objects.filter(user=request.user).order_by(
+        "-created_at"
+    )
+    page_obj = paginate_queryset(channels, request, settings.PAGE_SIZE)
+    context = {"page_obj": page_obj, "request": request}
+    if request.htmx:
+        return render(request, "tracker/partials/target_list.html", context)
+    else:
+        return render(request, "tracker/target_page.html", context)
+
+
 def check_username(request):
     """
     Check if a username already exists
@@ -87,8 +108,23 @@ def update_source_status(request, pk):
         source.save()
         return render(
             request,
-            "tracker/partials/active_following_element.html",
+            "tracker/partials/source_active_following.html",
             {"channel": source},
+        )
+
+
+def update_target_status(request, pk):
+    """
+    Update the auto post status of a target channel
+    """
+    if request.method == "POST":
+        target = get_object_or_404(TargetChannel, pk=pk)
+        target.auto_post = not target.auto_post
+        target.save()
+        return render(
+            request,
+            "tracker/partials/target_auto_post.html",
+            {"channel": target},
         )
 
 
@@ -98,6 +134,15 @@ def delete_source(request, pk):
     """
     source = get_object_or_404(SourceChannel, pk=pk)
     source.delete()
+    return HttpResponse("<div></div>")
+
+
+def delete_target(request, pk):
+    """
+    Delete a target channel
+    """
+    target = get_object_or_404(TargetChannel, pk=pk)
+    target.delete()
     return HttpResponse("<div></div>")
 
 
@@ -139,6 +184,43 @@ def create_source(request):
     )
 
 
+def create_target(request):
+    """
+    Create a new target channel
+    """
+    if request.method == "POST":
+        form = CreateTargetChannelForm(request.POST)
+        if form.is_valid():
+            target = form.save(commit=False)
+            target.user = request.user
+            target.save()
+            channels = TargetChannel.objects.filter(
+                user=request.user
+            ).order_by("-created_at")
+            page_obj = paginate_queryset(channels, request, settings.PAGE_SIZE)
+            context = {
+                "page_obj": page_obj,
+                "request": request,
+                "target_pk": target.pk,
+            }
+            return render(
+                request,
+                "tracker/partials/target_list.html",
+                context,
+                status=201,
+            )
+        return render(
+            request,
+            "tracker/partials/target_modal_form.html",
+            {"form": form},
+            status=400,
+        )
+    form = CreateTargetChannelForm()
+    return render(
+        request, "tracker/partials/target_modal_form.html", {"form": form}
+    )
+
+
 def update_source(request, pk):
     """
     Update a source channel
@@ -162,6 +244,29 @@ def update_source(request, pk):
         )
 
 
+def update_target(request, pk):
+    """
+    Update a target channel
+    """
+    target = get_object_or_404(TargetChannel, pk=pk)
+    if request.method == "POST":
+        form = UpdateTargetListForm(request.POST, instance=target)
+        if form.is_valid():
+            form.save()
+            return render(
+                request,
+                "tracker/partials/target_element.html",
+                {"channel": target},
+            )
+    else:
+        form = UpdateTargetListForm(instance=target)
+        return render(
+            request,
+            "tracker/partials/target_form.html",
+            {"channel": target, "form": form},
+        )
+
+
 def search_source(request):
     """
     Search for a source channel by name
@@ -173,6 +278,19 @@ def search_source(request):
     page_obj = paginate_queryset(result, request, settings.PAGE_SIZE)
     context = {"page_obj": page_obj, "request": request}
     return render(request, "tracker/partials/source_list.html", context)
+
+
+def search_target(request):
+    """
+    Search for a target channel by name
+    """
+    query = request.GET.get("query")
+    result = TargetChannel.objects.filter(
+        user=request.user, name__icontains=query
+    ).order_by("-created_at")
+    page_obj = paginate_queryset(result, request, settings.PAGE_SIZE)
+    context = {"page_obj": page_obj, "request": request}
+    return render(request, "tracker/partials/target_list.html", context)
 
 
 def check_source_link(request, pk):
@@ -190,7 +308,37 @@ def check_source_link(request, pk):
     )
 
 
-def check_task_status(request, pk):
+def check_target_link(request, pk):
+    """
+    Check the status of a target channel link
+    """
+    from .tasks import validate_link_task
+
+    task = validate_link_task.delay(pk, "TargetChannel")
+    target = get_object_or_404(TargetChannel, pk=pk)
+    return render(
+        request,
+        "tracker/partials/target_element.html",
+        {"channel": target, "task_id": task.id},
+    )
+
+
+def check_target_bot(request, pk):
+    """
+    Check the status of a target channel bot
+    """
+    from .tasks import validate_admin_bot_task
+
+    task = validate_admin_bot_task.delay(pk)
+    target = get_object_or_404(TargetChannel, pk=pk)
+    return render(
+        request,
+        "tracker/partials/target_element.html",
+        {"channel": target, "task_id": task.id},
+    )
+
+
+def get_source(request, pk):
     """
     Check the status of a SourceChannel link
     """
@@ -199,4 +347,16 @@ def check_task_status(request, pk):
         request,
         "tracker/partials/source_element.html",
         {"channel": source},
+    )
+
+
+def get_target(request, pk):
+    """
+    Check the status of a TargetChannel link
+    """
+    target = get_object_or_404(TargetChannel, pk=pk)
+    return render(
+        request,
+        "tracker/partials/target_element.html",
+        {"channel": target},
     )
