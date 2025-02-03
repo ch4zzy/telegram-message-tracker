@@ -182,3 +182,6 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
 
 LOGIN_REDIRECT_URL = "/slist"  # noqa F811
 LOGOUT_REDIRECT_URL = "/login"  # noqa F811
+
+
+PAGE_SIZE = 5
