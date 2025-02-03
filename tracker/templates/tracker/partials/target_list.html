@@ -1,10 +1,10 @@
-<div id="source-list">
+<div id="target-list">
     {% for channel in page_obj %}
-        {% include "tracker/partials/source_element.html" %}
+        {% include "tracker/partials/target_element.html" %}
         <!-- TODO: Hotfix, should be changed next time -->
-        {% if source_pk == channel.pk %}
+        {% if target_pk == channel.pk %}
             <div
-                hx-get="{% url 'get_source' channel.pk %}"
+                hx-get="{% url 'get_target' channel.pk %}"
                 hx-trigger="load delay:1s"
                 hx-swap="outerHTML"
                 hx-target="#channel-{{ channel.pk }}"

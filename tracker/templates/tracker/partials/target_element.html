@@ -9,15 +9,16 @@
                         <i class="bi bi-three-dots-vertical"></i> Detail
                     </button>
                     <button type="button" class="btn btn-sm btn-dark me-2"
-                            hx-get="{% url 'update_source' channel.pk %}"
+                            hx-get="{% url 'update_target' channel.pk %}"
                             hx-target="#channel-{{ channel.pk }}"
                             hx-swap="outerHTML">
                         <i class="bi bi-pencil-square"></i> Edit
                     </button>
-                    {% include 'tracker/partials/source_active_following.html' %}
-                    {% include 'tracker/partials/source_verified_status.html' %}
+                    {% include 'tracker/partials/target_auto_post.html' %}
+                    {% include 'tracker/partials/target_verified_status.html' %}
+                    {% include 'tracker/partials/target_admin_status.html' %}
                 </div>
-                {% include 'tracker/partials/source_delete_button.html' %}
+                {% include 'tracker/partials/target_delete_button.html' %}
             </div>
         </div>
     </div>

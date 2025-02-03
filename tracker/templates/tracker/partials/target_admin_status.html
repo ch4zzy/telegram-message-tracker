@@ -1,0 +1,28 @@
+<!-- Channel Block -->
+<div id="channel-{{ channel.pk }}">
+    {% if channel.admin_status %}
+        <span class="btn btn-sm btn-success me-2 btn-disabled">
+            Admin status:
+            <i class="bi bi-check ms-1"></i>
+        </span>
+    {% else %}
+        <span class="btn btn-sm btn-danger me-2 btn-disabled">
+            Admin status:
+            <i class="bi bi-exclamation-triangle"></i>
+        </span>
+        <span class="btn btn-sm btn-dark me-2"
+              hx-get="{% url 'check_target_bot' channel.pk %}"
+              hx-trigger="click"
+              hx-target="#channel-{{ channel.pk }}"
+              hx-swap="outerHTML">
+    <i class="bi bi-arrow-clockwise ml-1"></i>
+        <!-- TODO: Hotfix, should be changed next time -->
+        {% if task_id %}
+            <div id="additional-request" hx-get="{% url 'get_target' channel.pk %}"
+            hx-target="#channel-{{ channel.pk }}"
+            hx-trigger="load delay:1s"
+            hx-swap="outerHTML"></div>
+        {% endif %}
+</span>
+    {% endif %}
+</div>
