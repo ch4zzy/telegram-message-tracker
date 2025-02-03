@@ -56,12 +56,19 @@ class SourceChannel(models.Model):
     name = models.CharField(max_length=16)
     source_link = models.URLField(
         max_length=128,
-        unique=True,
         validators=[validate_url],
     )
     created_at = models.DateTimeField(auto_now_add=True)
     active_following = models.BooleanField(default=False)
     verified_status = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "source_link"],
+                name="unique_source_link",
+            )
+        ]
 
     def __str__(self):
         return f"Source -> {self.name}"
