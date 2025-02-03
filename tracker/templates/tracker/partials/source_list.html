@@ -4,7 +4,7 @@
         <!-- TODO: Hotfix, should be changed next time -->
         {% if source_pk == channel.pk %}
             <div
-                hx-get="{% url 'check_task_status' channel.pk %}"
+                hx-get="{% url 'get_source' channel.pk %}"
                 hx-trigger="load delay:1s"
                 hx-swap="outerHTML"
                 hx-target="#channel-{{ channel.pk }}"
