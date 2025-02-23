@@ -35,6 +35,15 @@
     {% endblock content %}
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="formSourceModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal content dynamically loaded with HTMX -->
+        </div>
+    </div>
+</div>
+
 <!-- Notification -->
 {% include 'tracker/partials/success_notification.html' %}
 {% include 'tracker/partials/failure_notification.html' %}
