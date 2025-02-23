@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="targetModalLabel">Choose target</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="list-group">
+        {% for target in targets %}
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                 id="target-post-{{ target.id }}">
+                <span class="me-3">{{ target.source_link }}</span>
+                <button class="btn btn-sm btn-primary"
+                        hx-post="{% url 'link_target' source_id=source.id target_id=target.id %}"
+                        hx-target="#target-post-{{ target.id }}"
+                        hx-swap="outerHTML"
+                        hx-trigger="click"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                    Add
+                </button>
+            </div>
+        {% empty %}
+            <p class="text-muted text-center py-3">No available targets.</p>
+        {% endfor %}
+    </div>
+</div>

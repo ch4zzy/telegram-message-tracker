@@ -1,17 +1,21 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
+from django.db.models import Case, IntegerField, When
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_GET, require_POST
 
 from .forms import (
     CreateSourceChannelForm,
     CreateTargetChannelForm,
     SignUpForm,
+    UpdatePostListForm,
     UpdateSourceListForm,
     UpdateTargetListForm,
 )
-from .models import SourceChannel, TargetChannel
+from .models import Post, SourceChannel, TargetChannel
+from .tasks import post_message_task
 
 
 def paginate_queryset(queryset, request, page_size):
@@ -55,6 +59,48 @@ def source_list(request):
         return render(request, "tracker/source_page.html", context)
 
 
+def source_list_component(request):
+    """
+    Display a partial list of source channels
+    """
+    channels = SourceChannel.objects.filter(user=request.user).order_by(
+        "-created_at"
+    )
+    page_obj = paginate_queryset(channels, request, settings.PAGE_SIZE)
+    context = {"page_obj": page_obj, "request": request}
+    return render(
+        request, "tracker/partials/source_list_compound.html", context
+    )
+
+
+def post_list_component(request, pk):
+    """
+    Display a partial list of posts from a source channel
+    """
+    source = get_object_or_404(SourceChannel, pk=pk)
+    posts = source.messages.all().order_by(
+        Case(
+            When(status="pending", then=0),
+            When(status="posted", then=1),
+            When(status="rejected", then=2),
+            default=0,
+            output_field=IntegerField(),
+        ),
+    )
+    targets = source.target_channel.all()
+
+    page_obj = paginate_queryset(posts, request, settings.PAGE_SIZE)
+    context = {
+        "page_obj": page_obj,
+        "channel": source,
+        "targets": targets,
+        "posts_count": posts.count(),
+        "pending_posts": posts.filter(status="pending").count(),
+        "posted_posts": posts.filter(status="posted").count(),
+    }
+    return render(request, "tracker/partials/post_list_compound.html", context)
+
+
 def target_list(request):
     """
     Display a list of target channels
@@ -68,6 +114,37 @@ def target_list(request):
         return render(request, "tracker/partials/target_list.html", context)
     else:
         return render(request, "tracker/target_page.html", context)
+
+
+def source_detail(request, pk):
+    """
+    Display details of a source channel
+    """
+    source = get_object_or_404(SourceChannel, pk=pk)
+    targets = source.target_channel.all()
+    posts = source.messages.all().order_by(
+        Case(
+            When(status="pending", then=0),
+            When(status="posted", then=1),
+            When(status="rejected", then=2),
+            default=0,
+            output_field=IntegerField(),
+        ),
+    )
+    page_obj = paginate_queryset(posts, request, settings.PAGE_SIZE)
+    context = {
+        "page_obj": page_obj,
+        "channel": source,
+        "targets": targets,
+        "posts_count": posts.count(),
+        "pending_posts": posts.filter(status="pending").count(),
+        "posted_posts": posts.filter(status="posted").count(),
+        "request": request,
+    }
+    if request.htmx:
+        return render(request, "tracker/partials/post_list.html", context)
+    else:
+        return render(request, "tracker/source_detail.html", context)
 
 
 def check_username(request):
@@ -267,6 +344,29 @@ def update_target(request, pk):
         )
 
 
+def update_post_list(request, pk):
+    """
+    Update post from list of posts for specific source
+    """
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = UpdatePostListForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return render(
+                request,
+                "tracker/partials/post_element.html",
+                {"post": post},
+            )
+    else:
+        form = UpdatePostListForm(instance=post)
+        return render(
+            request,
+            "tracker/partials/post_form.html",
+            {"post": post, "form": form},
+        )
+
+
 def search_source(request):
     """
     Search for a source channel by name
@@ -278,6 +378,20 @@ def search_source(request):
     page_obj = paginate_queryset(result, request, settings.PAGE_SIZE)
     context = {"page_obj": page_obj, "request": request}
     return render(request, "tracker/partials/source_list.html", context)
+
+
+def search_post_source(request, pk):
+    """
+    Search for a post in a source channel
+    """
+    query = request.GET.get("query")
+    source = get_object_or_404(SourceChannel, pk=pk)
+    result = source.messages.filter(content__icontains=query).order_by(
+        "-created_at"
+    )
+    page_obj = paginate_queryset(result, request, settings.PAGE_SIZE)
+    context = {"page_obj": page_obj, "channel": source}
+    return render(request, "tracker/partials/post_list.html", context)
 
 
 def search_target(request):
@@ -360,3 +474,66 @@ def get_target(request, pk):
         "tracker/partials/target_element.html",
         {"channel": target},
     )
+
+
+def unlink_target(request, source_id, target_id):
+    if request.method == "DELETE":
+        source = get_object_or_404(SourceChannel, id=source_id)
+        target = get_object_or_404(TargetChannel, id=target_id)
+        source.target_channel.remove(target)
+        return HttpResponse("<div></div>")
+    return HttpResponse(status=405)
+
+
+def get_target_modal(request, source_id):
+    source = get_object_or_404(SourceChannel, id=source_id)
+    available_targets = TargetChannel.objects.filter(
+        user=request.user
+    ).exclude(id__in=source.target_channel.values_list("id", flat=True))
+    context = {"targets": available_targets, "source": source}
+    return render(
+        request, "tracker/partials/source_link_modal_form.html", context
+    )
+
+
+def link_target(request, source_id, target_id):
+    if request.method == "POST":
+        source = get_object_or_404(SourceChannel, id=source_id)
+        target = get_object_or_404(TargetChannel, id=target_id)
+        source.target_channel.add(target)
+        context = {"linked_success": True, "source": source}
+        return render(
+            request, "tracker/partials/source_linked_success.html", context
+        )
+    return HttpResponse(status=405)
+
+
+def get_linked_targets(request, source_id):
+    source = get_object_or_404(SourceChannel, id=source_id)
+    targets = source.target_channel.all()
+    context = {"targets": targets, "channel": source}
+    return render(request, "tracker/partials/linked_target_list.html", context)
+
+
+@require_POST
+def post_message(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    task_id = post_message_task.delay(post_id)
+    context = {"post": post, "task_id": task_id}
+    return render(request, "tracker/partials/post_element.html", context)
+
+
+@require_POST
+def post_reject(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.status = "rejected"
+    post.save()
+    context = {"post": post}
+    return render(request, "tracker/partials/post_element.html", context)
+
+
+@require_GET
+def get_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    context = {"post": post}
+    return render(request, "tracker/partials/post_element.html", context)

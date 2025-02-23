@@ -4,12 +4,12 @@
         <!-- TODO: Hotfix, should be changed next time -->
         {% if target_pk == channel.pk %}
             <div
-                hx-get="{% url 'get_target' channel.pk %}"
-                hx-trigger="load delay:1s"
-                hx-swap="outerHTML"
-                hx-target="#channel-{{ channel.pk }}"
-            ></div>
+                    hx-get="{% url 'get_target' channel.pk %}"
+                    hx-trigger="load delay:1s"
+                    hx-swap="outerHTML"
+                    hx-target="#channel-{{ channel.pk }}">
+            </div>
         {% endif %}
     {% endfor %}
-    {% include "tracker/partials/pagination_control.html" %}
+    {% include "tracker/partials/pagination_source_list.html" %}
 </div>

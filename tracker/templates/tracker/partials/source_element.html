@@ -5,9 +5,13 @@
             <p class="card-text">{{ channel.source_link }}</p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <button type="button" class="btn btn-sm btn-dark me-2">
+                    <a type="button" class="btn btn-sm btn-dark me-2"
+                       hx-get="{% url 'source_post_list_component' channel.pk %}"
+                       hx-swap="outerHTML"
+                       hx-target="#source-page-content"
+                       hx-push-url="/source/{{ channel.pk }}">
                         <i class="bi bi-three-dots-vertical"></i> Detail
-                    </button>
+                    </a>
                     <button type="button" class="btn btn-sm btn-dark me-2"
                             hx-get="{% url 'update_source' channel.pk %}"
                             hx-target="#channel-{{ channel.pk }}"

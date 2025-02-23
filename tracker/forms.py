@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import SourceChannel, TargetChannel, User
+from .models import Post, SourceChannel, TargetChannel, User
 from .validators import validate_source_target_unique
 
 
@@ -59,6 +59,12 @@ class UpdateTargetListForm(forms.ModelForm):
     class Meta:
         model = TargetChannel
         fields = ["name", "source_link"]
+
+
+class UpdatePostListForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["content"]
 
 
 class CreateSourceChannelForm(forms.ModelForm):

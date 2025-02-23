@@ -1,0 +1,20 @@
+<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+     id="target-post-{{ target.id }}">
+    <span class="me-3 badge bg-success">Successfully added</span>
+    <button class="btn btn-sm btn-secondary"
+            hx-post="#"
+            hx-target="#target-post-{{ target.id }}"
+            hx-swap="outerHTML"
+            hx-trigger="click"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            disabled>
+        Added
+    </button>
+</div>
+{% if linked_success %}
+    <div hx-get="{% url 'get_linked_targets' source_id=source.id %}"
+         hx-target="#target-list"
+         hx-swap="outerHTML"
+         hx-trigger="load">
+    </div>
+{% endif %}
