@@ -86,6 +86,12 @@ htmx_patterns = [
         views.get_linked_targets,
         name="get_linked_targets",
     ),
+    # Post
+    path(
+        "post/<int:post_id>/approve/", views.post_message, name="post_message"
+    ),
+    path("post/<int:post_id>/reject/", views.post_reject, name="post_reject"),
+    path("post/<int:post_id>/", views.get_post, name="get_post"),
 ]
 
 

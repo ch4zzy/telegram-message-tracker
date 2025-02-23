@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
+from django.db.models import Case, IntegerField, When
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_GET, require_POST
 
 from .forms import (
     CreateSourceChannelForm,
@@ -13,6 +15,7 @@ from .forms import (
     UpdateTargetListForm,
 )
 from .models import Post, SourceChannel, TargetChannel
+from .tasks import post_message_task
 
 
 def paginate_queryset(queryset, request, page_size):
@@ -75,7 +78,15 @@ def post_list_component(request, pk):
     Display a partial list of posts from a source channel
     """
     source = get_object_or_404(SourceChannel, pk=pk)
-    posts = source.messages.all().order_by("-created_at")
+    posts = source.messages.all().order_by(
+        Case(
+            When(status="pending", then=0),
+            When(status="posted", then=1),
+            When(status="rejected", then=2),
+            default=0,
+            output_field=IntegerField(),
+        ),
+    )
     targets = source.target_channel.all()
 
     page_obj = paginate_queryset(posts, request, settings.PAGE_SIZE)
@@ -111,7 +122,15 @@ def source_detail(request, pk):
     """
     source = get_object_or_404(SourceChannel, pk=pk)
     targets = source.target_channel.all()
-    posts = source.messages.all().order_by("-created_at")
+    posts = source.messages.all().order_by(
+        Case(
+            When(status="pending", then=0),
+            When(status="posted", then=1),
+            When(status="rejected", then=2),
+            default=0,
+            output_field=IntegerField(),
+        ),
+    )
     page_obj = paginate_queryset(posts, request, settings.PAGE_SIZE)
     context = {
         "page_obj": page_obj,
@@ -468,9 +487,9 @@ def unlink_target(request, source_id, target_id):
 
 def get_target_modal(request, source_id):
     source = get_object_or_404(SourceChannel, id=source_id)
-    available_targets = TargetChannel.objects.exclude(
-        id__in=source.target_channel.values_list("id", flat=True)
-    )
+    available_targets = TargetChannel.objects.filter(
+        user=request.user
+    ).exclude(id__in=source.target_channel.values_list("id", flat=True))
     context = {"targets": available_targets, "source": source}
     return render(
         request, "tracker/partials/source_link_modal_form.html", context
@@ -494,3 +513,27 @@ def get_linked_targets(request, source_id):
     targets = source.target_channel.all()
     context = {"targets": targets, "channel": source}
     return render(request, "tracker/partials/linked_target_list.html", context)
+
+
+@require_POST
+def post_message(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    task_id = post_message_task.delay(post_id)
+    context = {"post": post, "task_id": task_id}
+    return render(request, "tracker/partials/post_element.html", context)
+
+
+@require_POST
+def post_reject(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.status = "rejected"
+    post.save()
+    context = {"post": post}
+    return render(request, "tracker/partials/post_element.html", context)
+
+
+@require_GET
+def get_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    context = {"post": post}
+    return render(request, "tracker/partials/post_element.html", context)
