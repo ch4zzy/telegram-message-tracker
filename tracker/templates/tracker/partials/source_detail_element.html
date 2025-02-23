@@ -1,0 +1,38 @@
+<div class="card mt-3" id="source-detail">
+    <div class="card-header">
+        <h2>{{ channel.name }}</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>Link:</strong> <a href="{{ channel.source_link }}" class="text-primary">{{ channel.source_link }}</a>
+        </p>
+        <p><strong>Date created:</strong> {{ channel.created_at }}</p>
+        <p><strong>Verification status:</strong>
+            <span class="badge {% if channel.verified_status %}bg-success{% else %}bg-danger{% endif %}">
+                {{ channel.verified_status|yesno:"Success,Failure" }}
+            </span>
+        </p>
+        <p><strong>Active following:</strong>
+            <span class="badge {% if channel.active_following %}bg-primary{% else %}bg-secondary{% endif %}">
+                {{ channel.active_following|yesno:"Active,Inactive" }}
+            </span>
+        </p>
+        <hr>
+        <div class="mt-4">
+            <h4>Post Statistics:</h4>
+            <p>
+                <span class="badge bg-primary fs-6">Total: {{ posts_count }}</span>
+                <span class="badge bg-warning fs-6">Pending: {{ pending_posts }}</span>
+                <span class="badge bg-success fs-6">Posted: {{ posted_posts }}</span>
+            </p>
+        </div>
+        <hr>
+
+        <h4 class="mt-4">Linked targets:</h4>
+        <button type="button" class="btn btn-dark w-100 mt-3" data-bs-toggle="modal"
+                data-bs-target="#formSourceModal"
+                hx-get="{% url 'get_target_modal' source_id=channel.pk %}" hx-target="#formSourceModal .modal-content">
+            Link target
+        </button>
+        {% include 'tracker/partials/linked_target_list.html' %}
+    </div>
+</div>
