@@ -3,13 +3,25 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("source/", views.source_list, name="source_list_partial"),
-    path("target/", views.target_list, name="target_list_partial"),
+    path("source/", views.source_list, name="source_list"),
+    path("source/<int:pk>/", views.source_detail, name="source_detail"),
+    path("target/", views.target_list, name="target_list"),
 ]
 
 htmx_patterns = [
     path("check-username/", views.check_username, name="check_username"),
     path("check-email/", views.check_email, name="check_email"),
+    # List partial
+    path(
+        "source-list/",
+        views.source_list_component,
+        name="source_list_component",
+    ),
+    path(
+        "post-list/source/<int:pk>",
+        views.post_list_component,
+        name="source_post_list_component",
+    ),
     # Edit
     path("create-source/", views.create_source, name="create_source"),
     path("create-target/", views.create_target, name="create_target"),
@@ -25,10 +37,16 @@ htmx_patterns = [
     ),
     path("update-source/<int:pk>", views.update_source, name="update_source"),
     path("update-target/<int:pk>", views.update_target, name="update_target"),
+    path("update-post/<int:pk>", views.update_post_list, name="update_post"),
     path("delete-source/<int:pk>", views.delete_source, name="delete_source"),
     path("delete-target/<int:pk>", views.delete_target, name="delete_target"),
     # Search
     path("search-source/", views.search_source, name="source_search"),
+    path(
+        "search-post-source/<int:pk>/",
+        views.search_post_source,
+        name="post_source_search",
+    ),
     path("search-target/", views.search_target, name="target_search"),
     # Statuses
     path(
@@ -48,6 +66,27 @@ htmx_patterns = [
     ),
     path("source/<int:pk>/", views.get_source, name="get_source"),
     path("target/<int:pk>/", views.get_target, name="get_target"),
+    path(
+        "unlink-target/<int:source_id>/<int:target_id>/",
+        views.unlink_target,
+        name="unlink_target",
+    ),
+    path(
+        "source/<int:source_id>/get-targets/",
+        views.get_target_modal,
+        name="get_target_modal",
+    ),
+    path(
+        "source/<int:source_id>/link-target/<int:target_id>/",
+        views.link_target,
+        name="link_target",
+    ),
+    path(
+        "source/<int:source_id>/linked-targets/",
+        views.get_linked_targets,
+        name="get_linked_targets",
+    ),
 ]
+
 
 urlpatterns += htmx_patterns
