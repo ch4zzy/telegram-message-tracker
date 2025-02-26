@@ -64,8 +64,8 @@ htmx_patterns = [
         views.check_target_bot,
         name="check_target_bot",
     ),
-    path("source/<int:pk>/", views.get_source, name="get_source"),
-    path("target/<int:pk>/", views.get_target, name="get_target"),
+    path("get-source/<int:pk>/", views.get_source, name="get_source"),
+    path("get-target/<int:pk>/", views.get_target, name="get_target"),
     path(
         "unlink-target/<int:source_id>/<int:target_id>/",
         views.unlink_target,
