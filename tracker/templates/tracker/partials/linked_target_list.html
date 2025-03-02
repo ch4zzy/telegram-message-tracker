@@ -1,22 +1,19 @@
 <div id="target-list">
     {% if targets %}
-        <div class="d-flex flex-column gap-2 mt-3">
+        <div class="d-flex flex-column gap-2">
             {% for target in targets %}
-                <div class="card" id="target-{{ target.id }}">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title mb-2">{{ target.name }}</h5>
-                            <a href="{{ target.source_link }}"
-                               class="btn btn-outline-primary btn-sm">{{ target.source_link }}</a>
-                        </div>
-                        <button class="btn btn-danger btn-sm"
-                                hx-delete="{% url 'unlink_target' channel.id target.id %}"
-                                hx-target="#target-{{ target.id }}"
-                                hx-swap="outerHTML"
-                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                            <i class="bi bi-trash fs-5"></i>
-                        </button>
+                <div class="target-item w-100 d-flex justify-content-between align-items-center border rounded p-2" id="target-{{ target.id }}">
+                    <div class="d-flex flex-column overflow-hidden">
+                        <div class="fw-medium">{{ target.name }}</div>
+                        <a href="{{ target.source_link }}" class="target-url text-decoration-none text-truncate small" style="max-width: calc(100%);">{{ target.source_link }}</a>
                     </div>
+                    <button class="btn btn-sm btn-outline-danger ms-2"
+                            hx-delete="{% url 'unlink_target' channel.id target.id %}"
+                            hx-target="#target-{{ target.id }}"
+                            hx-swap="outerHTML"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </div>
             {% endfor %}
         </div>
@@ -24,3 +21,4 @@
         <p class="text-muted">No linked channels.</p>
     {% endif %}
 </div>
+
