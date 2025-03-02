@@ -42,11 +42,6 @@ htmx_patterns = [
     path("delete-target/<int:pk>", views.delete_target, name="delete_target"),
     # Search
     path("search-source/", views.search_source, name="source_search"),
-    path(
-        "search-post-source/<int:pk>/",
-        views.search_post_source,
-        name="post_source_search",
-    ),
     path("search-target/", views.search_target, name="target_search"),
     # Statuses
     path(
@@ -92,6 +87,7 @@ htmx_patterns = [
     ),
     path("post/<int:post_id>/reject/", views.post_reject, name="post_reject"),
     path("post/<int:post_id>/", views.get_post, name="get_post"),
+    path("post/<int:pk>/filter/", views.filter_posts, name="filter_posts"),
 ]
 
 
