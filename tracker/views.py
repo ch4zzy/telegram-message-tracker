@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
-from django.db.models import Case, IntegerField, When
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_GET, require_POST
@@ -78,15 +77,7 @@ def post_list_component(request, pk):
     Display a partial list of posts from a source channel
     """
     source = get_object_or_404(SourceChannel, pk=pk)
-    posts = source.messages.all().order_by(
-        Case(
-            When(status="pending", then=0),
-            When(status="posted", then=1),
-            When(status="rejected", then=2),
-            default=0,
-            output_field=IntegerField(),
-        ),
-    )
+    posts = source.messages.all().order_by("-created_at")
     targets = source.target_channel.all()
 
     page_obj = paginate_queryset(posts, request, settings.PAGE_SIZE)
@@ -122,15 +113,7 @@ def source_detail(request, pk):
     """
     source = get_object_or_404(SourceChannel, pk=pk)
     targets = source.target_channel.all()
-    posts = source.messages.all().order_by(
-        Case(
-            When(status="pending", then=0),
-            When(status="posted", then=1),
-            When(status="rejected", then=2),
-            default=0,
-            output_field=IntegerField(),
-        ),
-    )
+    posts = source.messages.all().order_by("-created_at")
     page_obj = paginate_queryset(posts, request, settings.PAGE_SIZE)
     context = {
         "page_obj": page_obj,
@@ -380,20 +363,6 @@ def search_source(request):
     return render(request, "tracker/partials/source_list.html", context)
 
 
-def search_post_source(request, pk):
-    """
-    Search for a post in a source channel
-    """
-    query = request.GET.get("query")
-    source = get_object_or_404(SourceChannel, pk=pk)
-    result = source.messages.filter(content__icontains=query).order_by(
-        "-created_at"
-    )
-    page_obj = paginate_queryset(result, request, settings.PAGE_SIZE)
-    context = {"page_obj": page_obj, "channel": source}
-    return render(request, "tracker/partials/post_list.html", context)
-
-
 def search_target(request):
     """
     Search for a target channel by name
@@ -537,3 +506,20 @@ def get_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     context = {"post": post}
     return render(request, "tracker/partials/post_element.html", context)
+
+
+def filter_posts(request, pk):
+    status = request.GET.get("status", "all")
+    query = request.GET.get("query", "")
+    posts = Post.objects.filter(channel_id=pk)
+    if status != "all":
+        posts = paginate_queryset(
+            posts.filter(status=status), request, settings.PAGE_SIZE
+        )
+    if query:
+        posts = paginate_queryset(
+            posts.filter(content__icontains=query), request, settings.PAGE_SIZE
+        )
+    return render(
+        request, "tracker/partials/post_list.html", {"page_obj": posts}
+    )

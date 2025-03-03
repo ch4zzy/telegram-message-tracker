@@ -3,42 +3,95 @@
         {% if page_obj.has_previous %}
             <li class="page-item">
                 <a class="page-link"
+                   hx-get="?page=1"
+                   hx-target="#source-list"
+                   hx-swap="outerHTML"
+                   aria-label="First">
+                    <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
                    hx-get="?page={{ page_obj.previous_page_number }}"
                    hx-target="#source-list"
-                   hx-swap="outerHTML">Previous</a>
+                   hx-swap="outerHTML"
+                   aria-label="Previous">
+                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                </a>
             </li>
         {% else %}
             <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" tabindex="-1" aria-disabled="true" aria-label="First">
+                    <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" aria-label="Previous">
+                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% if page_obj.number > 3 %}
+            <li class="page-item disabled">
+                <a class="page-link">...</a>
             </li>
         {% endif %}
 
         {% for page_num in page_obj.paginator.page_range %}
-            {% if page_num == page_obj.number %}
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link">{{ page_num }}</a>
-                </li>
-            {% else %}
-                <li class="page-item">
-                    <a class="page-link"
-                       hx-get="?page={{ page_num }}"
-                       hx-target="#source-list"
-                       hx-swap="outerHTML">{{ page_num }}</a>
-                </li>
+            {% if page_num >= page_obj.number|add:"-2" and page_num <= page_obj.number|add:"2" %}
+                {% if page_num == page_obj.number %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           hx-get="?page={{ page_num }}"
+                           hx-target="#source-list"
+                           hx-swap="outerHTML">{{ page_num }}</a>
+                    </li>
+                {% endif %}
             {% endif %}
         {% endfor %}
+
+        {% if page_obj.number < page_obj.paginator.num_pages|add:"-2" %}
+            <li class="page-item disabled">
+                <a class="page-link">...</a>
+            </li>
+        {% endif %}
 
         {% if page_obj.has_next %}
             <li class="page-item">
                 <a class="page-link"
                    hx-get="?page={{ page_obj.next_page_number }}"
                    hx-target="#source-list"
-                   hx-swap="outerHTML">Next</a>
+                   hx-swap="outerHTML"
+                   aria-label="Next">
+                    <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   hx-get="?page={{ page_obj.paginator.num_pages }}"
+                   hx-target="#source-list"
+                   hx-swap="outerHTML"
+                   aria-label="Last">
+                    <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+                </a>
             </li>
         {% else %}
             <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true">Next</a>
+                <a class="page-link" tabindex="-1" aria-disabled="true" aria-label="Next">
+                    <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" aria-label="Last">
+                    <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+                </a>
             </li>
         {% endif %}
     </ul>
 </nav>
+

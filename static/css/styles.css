@@ -47,3 +47,293 @@ body {
     opacity: 0.5;
     transition: filter 0.3s ease, opacity 0.3s ease;
 }
+
+.sidebar {
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+.content-area {
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+.status-badge-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.status-badge-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-badge-active {
+    background-color: #cfe2ff;
+    color: #084298;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 10px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.total-stat {
+    color: #0d6efd;
+}
+
+.pending-stat {
+    color: #ffc107;
+}
+
+.posted-stat {
+    color: #198754;
+}
+
+.message-card {
+    border-left: 4px solid #ffc107;
+}
+
+.btn-post {
+    color: #198754;
+    border-color: #198754;
+}
+
+.btn-post:hover {
+    background-color: #198754;
+    color: white;
+}
+
+.btn-reject {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-reject:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.channel-link {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.channel-link:hover {
+    text-decoration: underline;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.target-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.target-url {
+    font-size: 0.75rem;
+    color: #6c757d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.text-muted {
+    color: #495057 !important;
+}
+
+.fw-medium {
+    color: #2c3e50;
+}
+
+.status-badge-success {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb;
+    font-weight: 500;
+}
+
+.status-badge-danger {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    border: 1px solid #f5c6cb;
+    font-weight: 500;
+}
+
+.status-badge-active {
+    background-color: #cce5ff !important;
+    color: #004085 !important;
+    border: 1px solid #b8daff;
+    font-weight: 500;
+}
+
+.status-badge-inactive {
+    background-color: #f8f9fa !important;
+    color: #6c757d !important;
+    border: 1px solid #e9ecef;
+    font-weight: 500;
+}
+
+
+.stat-card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+}
+
+.stat-number {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.total-stat {
+    color: #2c3e50;
+}
+
+.pending-stat {
+    color: #856404;
+}
+
+.posted-stat {
+    color: #155724;
+}
+
+.card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-header.bg-white {
+    background-color: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.btn-outline-success {
+  color: #198754;
+  border-color: #198754;
+}
+
+.btn-outline-success:hover {
+  color: #fff;
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.badge {
+  font-weight: 500;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000;
+}
+
+/* Добавьте эти стили в ваш CSS файл */
+.btn-sm {
+  font-size: 0.875rem;
+  border-width: 1px;
+}
+
+.btn-outline-success,
+.btn-outline-danger,
+.btn-outline-secondary {
+  background-color: transparent;
+}
+
+.btn-outline-success {
+  color: #198754;
+  border-color: #198754;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  font-weight: normal;
+}
+/* Добавьте эти стили в ваш CSS файл */
+.btn-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-width: 1px;
+}
+
+.btn-outline-success,
+.btn-outline-danger,
+.btn-outline-secondary {
+  background-color: transparent;
+}
+
+.btn-outline-success {
+  color: #198754;
+  border-color: #198754;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  font-weight: normal;
+}

@@ -1,38 +1,88 @@
 <div class="card mt-3" id="source-detail">
     <div class="card-header">
-        <h2>{{ channel.name }}</h2>
+        <h2 class="fs-3 fw-bold mb-1">{{ channel.name }}</h2>
+        <a href="{{ channel.source_link }}" target="_blank" class="channel-link d-flex align-items-center">
+            {{ channel.source_link }}
+            <i class="bi bi-box-arrow-up-right ms-1 small"></i>
+        </a>
     </div>
     <div class="card-body">
-        <p><strong>Link:</strong> <a href="{{ channel.source_link }}" class="text-primary">{{ channel.source_link }}</a>
-        </p>
-        <p><strong>Date created:</strong> {{ channel.created_at }}</p>
-        <p><strong>Verification status:</strong>
-            <span class="badge {% if channel.verified_status %}bg-success{% else %}bg-danger{% endif %}">
-                {{ channel.verified_status|yesno:"Success,Failure" }}
-            </span>
-        </p>
-        <p><strong>Active following:</strong>
-            <span class="badge {% if channel.active_following %}bg-primary{% else %}bg-secondary{% endif %}">
-                {{ channel.active_following|yesno:"Active,Inactive" }}
-            </span>
-        </p>
-        <hr>
-        <div class="mt-4">
-            <h4>Post Statistics:</h4>
-            <p>
-                <span class="badge bg-primary fs-6">Total: {{ posts_count }}</span>
-                <span class="badge bg-warning fs-6">Pending: {{ pending_posts }}</span>
-                <span class="badge bg-success fs-6">Posted: {{ posted_posts }}</span>
-            </p>
-        </div>
-        <hr>
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h3 class="card-title fs-6 mb-0">Channel Information</h3>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Date created:</span>
+                    <span class="fw-medium">{{ channel.created_at }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Verification status:</span>
+                    {% if channel.verified_status %}
+                        <span class="badge status-badge-success rounded-pill">
+                        <i class="bi bi-check-circle-fill"></i> Success
+                        </span>
+                    {% else %}
+                        <span class="badge status-badge-danger rounded-pill">
+                        <i class="bi bi-x-circle-fill"></i> Failed
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted">Active following:</span>
+                    {% if channel.active_following %}
+                    <span class="badge status-badge-active rounded-pill">Active</span>
+                    {% else %}
+                    <span class="badge status-badge-inactive rounded-pill">Inactive</span>
+                    {% endif %}
+                </div>
+            </div>
 
-        <h4 class="mt-4">Linked targets:</h4>
-        <button type="button" class="btn btn-dark w-100 mt-3" data-bs-toggle="modal"
-                data-bs-target="#formSourceModal"
-                hx-get="{% url 'get_target_modal' source_id=channel.pk %}" hx-target="#formSourceModal .modal-content">
-            Link target
-        </button>
-        {% include 'tracker/partials/linked_target_list.html' %}
+        </div>
+
+        <!-- Post Statistics -->
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h3 class="card-title fs-6 mb-0">Post Statistics</h3>
+            </div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-4">
+                        <div class="border rounded stat-card">
+                            <div class="text-muted small">Total</div>
+                            <div class="stat-number total-stat">{{ posts_count }}</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="border rounded stat-card">
+                            <div class="text-muted small">Pending</div>
+                            <div class="stat-number pending-stat">{{ pending_posts }}</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="border rounded stat-card">
+                            <div class="text-muted small">Posted</div>
+                            <div class="stat-number posted-stat">{{ posted_posts }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linked Targets -->
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h3 class="card-title fs-6 mb-0">Linked Targets</h3>
+            </div>
+            <div class="card-body">
+                {% include 'tracker/partials/linked_target_list.html' %}
+                <button type="button" class="btn btn-outline-secondary w-100 btn-sm mt-3" data-bs-toggle="modal"
+                        data-bs-target="#formSourceModal"
+                        hx-get="{% url 'get_target_modal' source_id=channel.pk %}"
+                        hx-target="#formSourceModal .modal-content">
+                    Link target
+                </button>
+            </div>
+        </div>
     </div>
 </div>

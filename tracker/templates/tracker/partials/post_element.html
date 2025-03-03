@@ -1,43 +1,47 @@
-<div id="post-{{ post.pk }}">
-    <div class="card mb-3 mt-3">
-        <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-clock-fill"></i> : {{ post.created_at }}</h5>
-            <p class="card-text">{{ post.content }}</p>
-            <p><strong>Status:</strong>
-                <span class="badge fs-7
-                    {% if post.status == 'pending' %}bg-warning
-                    {% elif post.status == 'posted' %}bg-success
-                    {% elif post.status == 'rejected' %}bg-danger{% endif %}">
-                    {{ post.get_status_display }}
-                </span>
-            </p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <button type="button" class="btn btn-sm btn-success me-2"
-                            hx-post="{% url 'post_message' post_id=post.pk %}"
-                            hx-target="#post-{{ post.pk }}"
-                            hx-swap="outerHTML"
-                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                        <i class="bi bi-check-lg"></i> Post
-                    </button>
-                    <button type="button" class="btn btn-sm btn-danger me-2"
-                            hx-post="{% url 'post_reject' post_id=post.pk %}"
-                            hx-target="#post-{{ post.pk }}"
-                            hx-swap="outerHTML"
-                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                        <i class="bi bi-x-lg"></i> Reject
-                    </button>
-                    <button type="button" class="btn btn-sm btn-dark"
-                            hx-get="{% url 'update_post' post.pk %}"
-                            hx-target="#post-{{ post.pk }}"
-                            hx-swap="outerHTML">
-                        <i class="bi bi-pencil-square"></i> Edit
-                    </button>
-                </div>
+<div id="post-{{ post.pk }}" class="border rounded-3 mt-3">
+    <!-- Post element -->
+    <div class="bg-white rounded-3 p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-clock text-muted me-2"></i>
+                <span class="text-secondary">{{ post.created_at|date:"M d, Y, H:i" }}</span>
             </div>
+            {% if post.status == 'pending' %}
+                <span class="badge bg-warning rounded-pill px-2">Pending</span>
+            {% elif post.status == 'posted' %}
+                <span class="badge bg-success rounded-pill px-2">Posted</span>
+            {% elif post.status == 'rejected' %}
+                <span class="badge bg-danger rounded-pill px-2">Rejected</span>
+            {% else %}
+                <span class="badge bg-secondary rounded-pill px-2">Unknown</span>
+            {% endif %}
+        </div>
+        <p class="mb-3">{{ post.content }}</p>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-success px-3"
+                    hx-post="{% url 'post_message' post_id=post.pk %}"
+                    hx-target="#post-{{ post.pk }}"
+                    hx-swap="outerHTML"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <i class="bi bi-check-lg"></i> Post
+            </button>
+            {% if post.status == 'pending' %}
+                <button type="button" class="btn btn-sm btn-outline-danger px-3"
+                        hx-post="{% url 'post_reject' post_id=post.pk %}"
+                        hx-target="#post-{{ post.pk }}"
+                        hx-swap="outerHTML"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                    <i class="bi bi-x-lg"></i> Reject
+                </button>
+            {% endif %}
+            <button type="button" class="btn btn-sm btn-outline-secondary px-3"
+                    hx-get="{% url 'update_post' post.pk %}"
+                    hx-target="#post-{{ post.pk }}">
+                <i class="bi bi-pencil"></i> Edit
+            </button>
         </div>
     </div>
-    {% if task_id %}
+{% if task_id %}
         <div hx-get="{% url 'get_post' post_id=post.pk %}"
              hx-trigger="load delay:1s"
              hx-swap="outerHTML"
