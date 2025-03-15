@@ -7,3 +7,13 @@ WORKDIR /code
 
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+
+COPY . .
+
+RUN python manage.py collectstatic --noinput
+
+# Expose the port
+EXPOSE 8000
+
+# Start Gunicorn
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
