@@ -40,6 +40,21 @@ htmx_patterns = [
     path("update-post/<int:pk>", views.update_post_list, name="update_post"),
     path("delete-source/<int:pk>", views.delete_source, name="delete_source"),
     path("delete-target/<int:pk>", views.delete_target, name="delete_target"),
+    path(
+        "update-detail-source/<int:pk>",
+        views.update_detail_source,
+        name="update_detail_source",
+    ),
+    path(
+        "update-detail-active-following/<int:pk>",
+        views.update_detail_active_following,
+        name="update_detail_active_following",
+    ),
+    path(
+        "verify-detail-source/<int:pk>",
+        views.verify_detail_source,
+        name="verify_detail_source",
+    ),
     # Search
     path("search-source/", views.search_source, name="source_search"),
     path("search-target/", views.search_target, name="target_search"),
