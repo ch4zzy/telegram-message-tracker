@@ -56,7 +56,8 @@ def save_post(channel, message, user):
 
     post = Post.objects.create(
         channel=SourceChannel.objects.get(source_link=channel, user=user),
-        content=message.message,
+        content=message.raw_text,
+        created_at=message.date,
     )
     post.save()
 
