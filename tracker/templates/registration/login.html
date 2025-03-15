@@ -2,28 +2,54 @@
 
 {% block content %}
     <title>Login</title>
-<div class="container">
-    <div class="form-container mt-5">
-        <form method="post">
-            {% csrf_token %}
-            <h2 class="mb-4 text-center">Login</h2>
-            <div class="mb-3">
-                <label for="id_username" class="form-label">Email</label>
-                <input type="email" class="form-control" id="id_username" name="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="id_password" name="password" required>
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
-                <label class="form-check-label" for="rememberMe">Remember me</label>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-            <div class="mt-3 text-center">
-                <a href="/signup/" class="text-muted">Don't have an account? Register here</a>
-            </div>
-        </form>
+    <div class="container">
+        <div class="form-container mt-5">
+            <form method="post">
+                {% csrf_token %}
+                <h2 class="mb-4 text-center">Login</h2>
+
+                <!-- Display non-field errors -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="id_username" name="username" required>
+                    <!-- Display field-specific errors -->
+                    {% if form.username.errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.username.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="id_password" name="password" required>
+                    <!-- Display field-specific errors -->
+                    {% if form.password.errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.password.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <div class="mt-3 text-center">
+                    <a href="/signup/" class="text-muted">Don't have an account? Register here</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}

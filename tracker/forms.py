@@ -77,3 +77,9 @@ class CreateTargetChannelForm(forms.ModelForm):
     class Meta:
         model = TargetChannel
         fields = ["name", "source_link", "auto_post"]
+
+
+class UpdateSourceDetailForm(forms.ModelForm):
+    class Meta:
+        model = SourceChannel
+        fields = ["name", "source_link"]

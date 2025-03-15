@@ -1,0 +1,76 @@
+<div class="card" id="source-detail">
+        <form hx-post="{% url 'update_detail_source' channel.pk %}"
+              hx-target="#source-detail"
+              hx-swap="outerHTML"
+              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            
+            <div class="card-header">
+                <div class="mb-2">
+                    <label for="id_name" class="fw-bold me-2 visually-hidden">Name:</label>
+                    <input type="text" 
+                           id="id_name" 
+                           name="name" 
+                           class="form-control form-control-lg fw-bold" 
+                           value="{{ channel.name }}" 
+                           placeholder="Channel name">
+                </div>
+                <div class="input-group">
+                    <label for="id_source_link" class="fw-bold me-2 visually-hidden">Link:</label>
+                    <input type="url" 
+                           id="id_source_link" 
+                           name="source_link" 
+                           class="form-control" 
+                           value="{{ channel.source_link }}" 
+                           placeholder="Source link">
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-box-arrow-up-right small">
+                            <a href="{{ channel.source_link }}"></a>
+                        </i>
+                    </span>
+                </div>
+                <div class="mt-2 text-end">
+                    <button type="submit" class="btn btn-success btn-sm d-flex align-items-center ms-auto">
+                        <i class="bi bi-floppy me-1"></i> Save
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h3 class="card-title fs-6 mb-0">Channel Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Date created:</span>
+                            <span class="fw-medium">{{ channel.created_at }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Verification status:</span>
+                            {% if channel.verified_status %}
+                                <span class="badge status-badge-success rounded-pill">
+                                <i class="bi bi-check-circle-fill"></i> Success
+                                </span>
+                            {% else %}
+                                <span class="badge status-badge-danger rounded-pill">
+                                <i class="bi bi-x-circle-fill"></i> Failed
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Active following:</span>
+                            {% if channel.active_following %}
+                            <span class="badge status-badge-active rounded-pill">Active</span>
+                            {% else %}
+                            <span class="badge status-badge-inactive rounded-pill">Inactive</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post Statistics -->
+                
+            </div>
+        </form>
+    </div>
+</div>

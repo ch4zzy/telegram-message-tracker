@@ -1,0 +1,14 @@
+<div id="active-following">
+    <span class="text-muted">Active following:</span>
+    {% if channel.active_following %}
+    <span class="badge status-badge-active rounded-pill btn"
+        hx-get="{% url 'update_detail_active_following' channel.pk %}"
+        hx-target="#active-following" hx-swap="innerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>Active</span>
+    {% else %}
+    <span class="badge status-badge-inactive rounded-pill btn"
+        hx-get="{% url 'update_detail_active_following' channel.pk %}"
+        hx-target="#active-following" hx-swap="innerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>Inactive</span>
+    {% endif %}
+</div>

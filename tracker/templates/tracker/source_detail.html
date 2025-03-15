@@ -1,30 +1,35 @@
 {% extends "tracker/base.html" %}
 
 {% block head_title %}
-    Detail for page {{ channel.name }}
+Detail for page {{ channel.name }}
 {% endblock head_title %}
 
 {% block content %}
-    {% if request.htmx %}
-        {% include 'tracker/partials/post_list_compound.html' %}
-    {% else %}
-        <div class="container mt-4" id="source-page-content">
-            <button class="btn btn-secondary"
-                    hx-get="{% url 'source_list_component' %}"
-                    hx-target="#source-page-content"
-                    hx-swap="innerHTML"
-                    hx-push-url="/source/">
-                <i class="bi bi-arrow-left"></i> Back to list
-            </button>
-            <div class="row">
-                <div class="col-lg-4">
-                    {% include 'tracker/partials/source_detail_element.html' %}
-                </div>
-                <div class="col-lg-8">
-                    {% include 'tracker/partials/post_source_filters.html' %}
-                    {% include 'tracker/partials/post_list.html' %}
-                </div>
-            </div>
+{% if request.htmx %}
+{% include 'tracker/partials/post_list_compound.html' %}
+{% else %}
+<div class="container mt-4" id="source-page-content">
+    <button class="btn btn-secondary" hx-get="{% url 'source_list_component' %}" hx-target="#source-page-content"
+        hx-swap="innerHTML" hx-push-url="/source/">
+        <i class="bi bi-arrow-left"></i> Back to list
+    </button>
+    <button class="btn btn-dark" hx-get="{% url 'update_detail_source' channel.pk %}" hx-target="#source-detail"
+        hx-swap="innerHTML">
+        Edit details
+    </button>
+    <button class="btn btn-primary" hx-get="{% url 'verify_detail_source' channel.pk %}" hx-target="#source-detail"
+        hx-swap="innerHTML">
+        Verify channel
+    </button>
+    <div class="row">
+        <div class="col-lg-4">
+            {% include 'tracker/partials/source_detail_element.html' %}
         </div>
-    {% endif %}
+        <div class="col-lg-8">
+            {% include 'tracker/partials/post_source_filters.html' %}
+            {% include 'tracker/partials/post_list.html' %}
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock content %}

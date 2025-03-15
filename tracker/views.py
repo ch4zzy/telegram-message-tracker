@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,11 +11,12 @@ from .forms import (
     CreateTargetChannelForm,
     SignUpForm,
     UpdatePostListForm,
+    UpdateSourceDetailForm,
     UpdateSourceListForm,
     UpdateTargetListForm,
 )
 from .models import Post, SourceChannel, TargetChannel
-from .tasks import post_message_task
+from .tasks import post_message_task, validate_link_task
 
 
 def paginate_queryset(queryset, request, page_size):
@@ -25,6 +27,24 @@ def paginate_queryset(queryset, request, page_size):
     page_number = request.GET.get("page", 1)
     page_obj = paginator.get_page(page_number)
     return page_obj
+
+
+def login_view(request):
+    """
+    Handle user login
+    """
+    if request.method == "POST":
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            user = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=user, password=password)
+            if user:
+                login(request, user)
+                return redirect("source_list")
+    else:
+        form = AuthenticationForm()
+    return render(request, "registration/login.html", {"form": form})
 
 
 def signup(request):
@@ -522,4 +542,56 @@ def filter_posts(request, pk):
         )
     return render(
         request, "tracker/partials/post_list.html", {"page_obj": posts}
+    )
+
+
+def update_detail_source(request, pk):
+    source = get_object_or_404(SourceChannel, pk=pk)
+    available_targets = TargetChannel.objects.filter(
+        user=request.user
+    ).exclude(id__in=source.target_channel.values_list("id", flat=True))
+    posts = source.messages.all().order_by("-created_at")
+    if request.method == "POST":
+        form = UpdateSourceDetailForm(request.POST, instance=source)
+        if form.is_valid():
+            form.save()
+            source.verified_status = False
+            source.save()
+            return render(
+                request,
+                "tracker/partials/source_detail_element.html",
+                {
+                    "channel": source,
+                    "targets": available_targets,
+                    "posts_count": posts.count(),
+                    "pending_posts": posts.filter(status="pending").count(),
+                    "posted_posts": posts.filter(status="posted").count(),
+                },
+            )
+    form = UpdateSourceListForm(instance=source)
+    return render(
+        request,
+        "tracker/partials/source_detail_form.html",
+        {"channel": source, "form": form},
+    )
+
+
+def update_detail_active_following(request, pk):
+    source = get_object_or_404(SourceChannel, pk=pk)
+    source.active_following = not source.active_following
+    source.save()
+    return render(
+        request,
+        "tracker/partials/source_detail_active_following.html",
+        {"channel": source},
+    )
+
+
+def verify_detail_source(request, pk):
+    source = get_object_or_404(SourceChannel, pk=pk)
+    task_id = validate_link_task.delay(pk, "SourceChannel")
+    return render(
+        request,
+        "tracker/partials/source_detail_element.html",
+        {"channel": source, "task_id": task_id},
     )

@@ -19,22 +19,30 @@
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Verification status:</span>
                     {% if channel.verified_status %}
-                        <span class="badge status-badge-success rounded-pill">
+                    <span class="badge status-badge-success rounded-pill">
                         <i class="bi bi-check-circle-fill"></i> Success
-                        </span>
+                    </span>
                     {% else %}
-                        <span class="badge status-badge-danger rounded-pill">
+                    <span class="badge status-badge-danger rounded-pill">
                         <i class="bi bi-x-circle-fill"></i> Failed
-                        </span>
+                    </span>
                     {% endif %}
                 </div>
                 <div class="d-flex justify-content-between">
-                    <span class="text-muted">Active following:</span>
-                    {% if channel.active_following %}
-                    <span class="badge status-badge-active rounded-pill">Active</span>
-                    {% else %}
-                    <span class="badge status-badge-inactive rounded-pill">Inactive</span>
-                    {% endif %}
+                    <div id="active-following">
+                        <span class="text-muted">Active following:</span>
+                        {% if channel.active_following %}
+                        <span class="badge status-badge-active rounded-pill btn"
+                            hx-get="{% url 'update_detail_active_following' channel.pk %}"
+                            hx-target="#active-following" hx-swap="innerHTML"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>Active</span>
+                        {% else %}
+                        <span class="badge status-badge-inactive rounded-pill btn"
+                            hx-get="{% url 'update_detail_active_following' channel.pk %}"
+                            hx-target="#active-following" hx-swap="innerHTML"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>Inactive</span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 
@@ -77,12 +85,17 @@
             <div class="card-body">
                 {% include 'tracker/partials/linked_target_list.html' %}
                 <button type="button" class="btn btn-outline-secondary w-100 btn-sm mt-3" data-bs-toggle="modal"
-                        data-bs-target="#formSourceModal"
-                        hx-get="{% url 'get_target_modal' source_id=channel.pk %}"
-                        hx-target="#formSourceModal .modal-content">
+                    data-bs-target="#formSourceModal" hx-get="{% url 'get_target_modal' source_id=channel.pk %}"
+                    hx-target="#formSourceModal .modal-content">
                     Link target
                 </button>
             </div>
         </div>
     </div>
+    {% if task_id %}
+    <div hx-get="{% url 'source_post_list_component' channel.pk %}"
+         hx-target="#source-page-content"
+         hx-swap="innerHTML"
+         hx-trigger="load delay:1000ms"></div>
+    {% endif %}
 </div>
