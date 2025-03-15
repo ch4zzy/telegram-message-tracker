@@ -12,19 +12,22 @@
                        hx-target="#post-list"
                        hx-indicator="#search-indicator"
                        hx-include="#search-input"
-                       hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                >
-
+                       hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
             </div>
-            <div class="dropdown">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="postFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown" hx-on::after-request="new bootstrap.Dropdown(document.getElementById('postFilterDropdown'))">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="postFilterDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-funnel"></i>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="postFilterDropdown">
-                    <li><a class="dropdown-item" href="#" hx-get="{% url 'filter_posts' channel.pk %}?status=all" hx-target="#post-list">All Posts</a></li>
-                    <li><a class="dropdown-item" href="#" hx-get="{% url 'filter_posts' channel.pk  %}?status=pending" hx-target="#post-list">Pending</a></li>
-                    <li><a class="dropdown-item" href="#" hx-get="{% url 'filter_posts' channel.pk %}?status=posted" hx-target="#post-list">Posted</a></li>
-                    <li><a class="dropdown-item" href="#" hx-get="{% url 'filter_posts' channel.pk %}?status=rejected" hx-target="#post-list">Rejected</a></li>
+                    <li><a class="dropdown-item" hx-get="{% url 'filter_posts' channel.pk %}?status=all"
+                            hx-target="#post-list">All Posts</a></li>
+                    <li><a class="dropdown-item" hx-get="{% url 'filter_posts' channel.pk %}?status=pending"
+                            hx-target="#post-list">Pending</a></li>
+                    <li><a class="dropdown-item" hx-get="{% url 'filter_posts' channel.pk %}?status=posted"
+                            hx-target="#post-list">Posted</a></li>
+                    <li><a class="dropdown-item" hx-get="{% url 'filter_posts' channel.pk %}?status=rejected"
+                            hx-target="#post-list">Rejected</a></li>
                 </ul>
             </div>
         </div>
