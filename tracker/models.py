@@ -81,7 +81,9 @@ class Post(models.Model):
         SourceChannel, on_delete=models.CASCADE, related_name="messages"
     )
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=False, auto_now=False, blank=True
+    )
     edited_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=10,
