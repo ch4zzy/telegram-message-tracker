@@ -9,18 +9,26 @@ Detail for page {{ channel.name }}
 {% include 'tracker/partials/post_list_compound.html' %}
 {% else %}
 <div class="container mt-4" id="source-page-content">
-    <button class="btn btn-secondary" hx-get="{% url 'source_list_component' %}" hx-target="#source-page-content"
-        hx-swap="innerHTML" hx-push-url="/source/">
-        <i class="bi bi-arrow-left"></i> Back to list
-    </button>
-    <button class="btn btn-dark" hx-get="{% url 'update_detail_source' channel.pk %}" hx-target="#source-detail"
-        hx-swap="innerHTML">
-        Edit details
-    </button>
-    <button class="btn btn-primary" hx-get="{% url 'verify_detail_source' channel.pk %}" hx-target="#source-detail"
-        hx-swap="innerHTML">
-        Verify channel
-    </button>
+    <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex">
+            <button class="btn btn-secondary" hx-get="{% url 'source_list_component' %}" hx-target="#source-page-content"
+                hx-swap="innerHTML" hx-push-url="/source/">
+                <i class="bi bi-arrow-left"></i> Back to list
+            </button>
+            <button class="btn btn-dark ms-3" hx-get="{% url 'update_detail_source' channel.pk %}" hx-target="#source-detail"
+                hx-swap="innerHTML">
+                Edit details
+            </button>
+            <button class="btn btn-success ms-3" hx-get="{% url 'verify_detail_source' channel.pk %}" hx-target="#source-detail"
+                hx-swap="innerHTML">
+                Verify channel
+            </button>
+        </div>
+        <button class="btn btn-primary" hx-get="{% url 'source_post_list_component' channel.pk %}"
+         hx-target="#source-page-content" hx-trigger="click delay:500ms">
+            Refresh
+        </button>
+    </div>
     <div class="row">
         <div class="col-lg-4">
             {% include 'tracker/partials/source_detail_element.html' %}
