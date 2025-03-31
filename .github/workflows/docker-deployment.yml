@@ -36,8 +36,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install docker-compose -y
 
       - name: Start services with Docker Compose
-        run: docker-compose up -d --build
+        run: docker-compose up -f docker-compose-dev.yml -d --build
 
       - name: Run migrations
         run: |
-          docker-compose exec -T django python manage.py migrate || { echo 'Migrations failed'; exit 1; }
+          docker-compose exec -f docker-compose-dev.yml -T django python manage.py migrate || { echo 'Migrations failed'; exit 1; }
