@@ -32,3 +32,4 @@ venv/
 *.pdf
 assets/
 bootstrap.*
+*.pem
