@@ -8,8 +8,6 @@ services:
             - .:/code
         ports:
             - "8000:8000"
-        environment:
-            - ENV=dev
         env_file:
             - .env
         depends_on:
