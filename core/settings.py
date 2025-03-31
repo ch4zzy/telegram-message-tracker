@@ -25,41 +25,32 @@ from django.conf.global_settings import (
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env(env_file=".env")
 
-# Environment variables
-if os.environ.get("env") == "prod":
-    DEBUG = False
-    SECRET_KEY = os.environ.get("SECRET_KEY")  # noqa
-    ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")  # noqa
-    POSTGRES_NAME = os.environ.get("POSTGRES_DB")
-    POSTGRES_USER = os.environ.get("POSTGRES_USER")
-    POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
-    POSTGRES_HOST = os.environ.get("POSTGRES_HOST")
-    POSTGRES_PORT = os.environ.get("POSTGRES_PORT")
-else:
-    env = environ.Env()
-    environ.Env.read_env(env_file=".env")
+DEBUG = False
 
-    DEBUG = True
+SECRET_KEY = env("SECRET_KEY")  # noqa F811
+POSTGRES_NAME = env("POSTGRES_NAME")
+POSTGRES_USER = env("POSTGRES_USER")
+POSTGRES_PASSWORD = env("POSTGRES_PASSWORD")
+POSTGRES_HOST = env("POSTGRES_HOST")
+POSTGRES_PORT = env("POSTGRES_PORT")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")  # noqa F811
+REDIS_URL = env("REDIS_URL")
+API_ID = env("API_ID")
+API_HASH = env("API_HASH")
+BOT_TOKEN = env("BOT_TOKEN")
+TELEGRAM_SESSION = env("TELEGRAM_SESSION")
+API_BOT_ID = env("API_BOT_ID")
+API_BOT_HASH = env("API_BOT_HASH")
+BOT_TELEGRAM_SESSION = env("BOT_TELEGRAM_SESSION")
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
-    SECRET_KEY = env("SECRET_KEY")
-    POSTGRES_NAME = env("POSTGRES_NAME")
-    POSTGRES_USER = env("POSTGRES_USER")
-    POSTGRES_PASSWORD = env("POSTGRES_PASSWORD")
-    POSTGRES_HOST = env("POSTGRES_HOST")
-    POSTGRES_PORT = env("POSTGRES_PORT")
-
-    ALLOWED_HOSTS = ["*"]
-
-    REDIS_URL = env("REDIS_URL")
-    API_ID = env("API_ID")
-    API_HASH = env("API_HASH")
-    BOT_TOKEN = env("BOT_TOKEN")
-    TELEGRAM_SESSION = env("TELEGRAM_SESSION")
-
-    API_BOT_ID = env("API_BOT_ID")
-    API_BOT_HASH = env("API_BOT_HASH")
-    BOT_TELEGRAM_SESSION = env("BOT_TELEGRAM_SESSION")
 
 # Application definition
 
@@ -69,10 +60,10 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_celery_beat",
     "django_htmx",
-    "whitenoise.runserver_nostatic",
     # local
     "tracker",
 ]
@@ -183,7 +174,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
 
 # LOGIN
 
-LOGIN_REDIRECT_URL = "/slist"  # noqa F811
+LOGIN_REDIRECT_URL = "/source"  # noqa F811
 LOGOUT_REDIRECT_URL = "/login"  # noqa F811
 
 
