@@ -128,6 +128,7 @@ def source_list_component(request):
         request, "tracker/partials/source_list_compound.html", context
     )
 
+
 @require_GET
 @login_required
 def post_list_component(request, pk):
@@ -299,6 +300,7 @@ def update_target_status(request, pk):
             {"channel": target},
         )
 
+
 @login_required
 def delete_source(request, pk):
     """
@@ -342,7 +344,8 @@ def create_source(request):
     Args:
         request: The request object
     Returns:
-        render: Render the source modal form or the source list with the new channel
+        render:
+        Render the source modal form or the source list with the new channel
     """
     if request.method == "POST":
         form = CreateSourceChannelForm(request.POST)
@@ -387,7 +390,8 @@ def create_target(request):
     Args:
         request: The request object
     Returns:
-        render: Render the target modal form or the target list with the new channel
+        render:
+        Render the target modal form or the target list with the new channel
     """
     if request.method == "POST":
         form = CreateTargetChannelForm(request.POST)
@@ -421,6 +425,7 @@ def create_target(request):
         request, "tracker/partials/target_modal_form.html", {"form": form}
     )
 
+
 @login_required
 def update_source(request, pk):
     """
@@ -431,7 +436,8 @@ def update_source(request, pk):
         request: The request object
         pk: The primary key of the source channel
     Returns:
-        render: Render the source modal form or the source list with the updated channel
+        render: Render the source modal form or the source list with the
+        updated channel
     """
     source = get_object_or_404(SourceChannel, pk=pk)
     if request.method == "POST":
@@ -451,6 +457,7 @@ def update_source(request, pk):
             {"channel": source, "form": form},
         )
 
+
 @login_required
 def update_target(request, pk):
     """
@@ -461,7 +468,9 @@ def update_target(request, pk):
         request: The request object
         pk: The primary key of the target channel
     Returns:
-        render: Render the target modal form or the target list with the updated channel
+        render:
+        Render the target modal form or the target list with the
+        updated channel
     """
     target = get_object_or_404(TargetChannel, pk=pk)
     if request.method == "POST":
@@ -481,6 +490,7 @@ def update_target(request, pk):
             {"channel": target, "form": form},
         )
 
+
 @login_required
 def update_post_list(request, pk):
     """
@@ -491,7 +501,8 @@ def update_post_list(request, pk):
         request: The request object
         pk: The primary key of the post
     Returns:
-        render: Render the post modal form or the post list with the updated post
+        render:
+        Render the post modal form or the post list with the updated post
     """
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -574,6 +585,7 @@ def check_source_link(request, pk):
         {"channel": source, "task_id": task.id},
     )
 
+
 @login_required
 def check_target_link(request, pk):
     """
@@ -595,6 +607,7 @@ def check_target_link(request, pk):
         "tracker/partials/target_element.html",
         {"channel": target, "task_id": task.id},
     )
+
 
 @login_required
 def check_target_bot(request, pk):
@@ -701,7 +714,7 @@ def get_target_modal(request, source_id):
 def link_target(request, source_id, target_id):
     """
     Link a target channel to a source channel
-    
+
     Methods: POST
     Args:
         request: The request object
@@ -834,7 +847,8 @@ def update_detail_source(request, pk):
         request: The request object
         pk: The primary key of the source channel
     Returns:
-        render: Render the source detail form or the partial source detail element with the updated channel
+        render: Render the source detail form
+        or the partial source detail element with the updated channel
     """
     source = get_object_or_404(SourceChannel, pk=pk)
     available_targets = TargetChannel.objects.filter(
@@ -876,7 +890,8 @@ def update_detail_active_following(request, pk):
         request: The request object
         pk: The primary key of the source channel
     Returns:
-        render: Render the partial source detail element with the updated status
+        render:
+        Render the partial source detail element with the updated status
     """
     source = get_object_or_404(SourceChannel, pk=pk)
     source.active_following = not source.active_following
