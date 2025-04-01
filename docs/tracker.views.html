@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module tracker.views</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 20px;
+    padding: 20px;
+}
+.heading {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+.heading a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+.section {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.section-title {
+    background: #444;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+.functions-decor {
+    background: #ddd;
+    padding: 10px;
+}
+.code {
+    font-family: monospace;
+    color: #007acc;
+}
+dl {
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+dt {
+    font-weight: bold;
+    color: #333;
+}
+dd {
+    margin-left: 20px;
+}
+</style>
+</head><body>
+
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-check_email"><strong>check_email</strong></a>(request)</dt><dd><span class="code">Check&nbsp;if&nbsp;an&nbsp;email&nbsp;already&nbsp;exists<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HttpResponse:&nbsp;A&nbsp;response&nbsp;indicating&nbsp;whether&nbsp;the&nbsp;email&nbsp;is&nbsp;available</span></dd></dl>
+ <dl><dt><a name="-check_source_link"><strong>check_source_link</strong></a>(request, pk)</dt><dd><span class="code">Check&nbsp;the&nbsp;status&nbsp;of&nbsp;a&nbsp;source&nbsp;channel&nbsp;link<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;element&nbsp;with&nbsp;the&nbsp;link&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-check_target_bot"><strong>check_target_bot</strong></a>(request, pk)</dt><dd><span class="code">Check&nbsp;the&nbsp;status&nbsp;of&nbsp;a&nbsp;target&nbsp;channel&nbsp;bot<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;target&nbsp;element&nbsp;with&nbsp;the&nbsp;bot&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-check_target_link"><strong>check_target_link</strong></a>(request, pk)</dt><dd><span class="code">Check&nbsp;the&nbsp;status&nbsp;of&nbsp;a&nbsp;target&nbsp;channel&nbsp;link<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;target&nbsp;element&nbsp;with&nbsp;the&nbsp;link&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-check_username"><strong>check_username</strong></a>(request)</dt><dd><span class="code">Check&nbsp;if&nbsp;a&nbsp;username&nbsp;already&nbsp;exists<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HttpResponse:&nbsp;A&nbsp;response&nbsp;indicating&nbsp;whether&nbsp;the&nbsp;username&nbsp;is&nbsp;available</span></dd></dl>
+ <dl><dt><a name="-create_source"><strong>create_source</strong></a>(request)</dt><dd><span class="code">Create&nbsp;a&nbsp;new&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;source&nbsp;modal&nbsp;form&nbsp;or&nbsp;the&nbsp;source&nbsp;list&nbsp;with&nbsp;the&nbsp;new&nbsp;channel</span></dd></dl>
+ <dl><dt><a name="-create_target"><strong>create_target</strong></a>(request)</dt><dd><span class="code">Create&nbsp;a&nbsp;new&nbsp;target&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;target&nbsp;modal&nbsp;form&nbsp;or&nbsp;the&nbsp;target&nbsp;list&nbsp;with&nbsp;the&nbsp;new&nbsp;channel</span></dd></dl>
+ <dl><dt><a name="-delete_source"><strong>delete_source</strong></a>(request, pk)</dt><dd><span class="code">Delete&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;DELETE<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HttpResponse:&nbsp;A&nbsp;response&nbsp;indicating&nbsp;the&nbsp;deletion&nbsp;was&nbsp;successful</span></dd></dl>
+ <dl><dt><a name="-delete_target"><strong>delete_target</strong></a>(request, pk)</dt><dd><span class="code">Delete&nbsp;a&nbsp;target&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;DELETE<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HttpResponse:&nbsp;A&nbsp;response&nbsp;indicating&nbsp;the&nbsp;deletion&nbsp;was&nbsp;successful</span></dd></dl>
+ <dl><dt><a name="-filter_posts"><strong>filter_posts</strong></a>(request, pk)</dt><dd><span class="code">Filter&nbsp;posts&nbsp;by&nbsp;status&nbsp;and&nbsp;query<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;post&nbsp;list&nbsp;with&nbsp;the&nbsp;filtered&nbsp;posts</span></dd></dl>
+ <dl><dt><a name="-get_linked_targets"><strong>get_linked_targets</strong></a>(request, source_id)</dt><dd><span class="code">Get&nbsp;a&nbsp;list&nbsp;of&nbsp;linked&nbsp;target&nbsp;channels&nbsp;for&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;linked&nbsp;target&nbsp;list&nbsp;with&nbsp;the&nbsp;targets</span></dd></dl>
+ <dl><dt><a name="-get_post"><strong>get_post</strong></a>(request, post_id)</dt><dd><span class="code">Get&nbsp;a&nbsp;post&nbsp;by&nbsp;ID<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;post_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;post<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;post&nbsp;element&nbsp;with&nbsp;the&nbsp;post&nbsp;details</span></dd></dl>
+ <dl><dt><a name="-get_source"><strong>get_source</strong></a>(request, pk)</dt><dd><span class="code">Check&nbsp;the&nbsp;status&nbsp;of&nbsp;a&nbsp;SourceChannel&nbsp;link<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;element&nbsp;with&nbsp;the&nbsp;link&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-get_target"><strong>get_target</strong></a>(request, pk)</dt><dd><span class="code">Check&nbsp;the&nbsp;status&nbsp;of&nbsp;a&nbsp;TargetChannel&nbsp;link<br>
+&nbsp;<br>
+Methods:&nbsp;GET</span></dd></dl>
+ <dl><dt><a name="-get_target_modal"><strong>get_target_modal</strong></a>(request, source_id)</dt><dd><span class="code">Display&nbsp;a&nbsp;modal&nbsp;form&nbsp;to&nbsp;link&nbsp;a&nbsp;target&nbsp;channel&nbsp;to&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;target&nbsp;link&nbsp;modal&nbsp;form&nbsp;with&nbsp;available&nbsp;targets</span></dd></dl>
+ <dl><dt><a name="-link_target"><strong>link_target</strong></a>(request, source_id, target_id)</dt><dd><span class="code">Link&nbsp;a&nbsp;target&nbsp;channel&nbsp;to&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;target_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;element&nbsp;with&nbsp;the&nbsp;link&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-login_view"><strong>login_view</strong></a>(request)</dt><dd><span class="code">Handle&nbsp;user&nbsp;login<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;login&nbsp;page&nbsp;with&nbsp;the&nbsp;authentication&nbsp;form</span></dd></dl>
+ <dl><dt><a name="-paginate_queryset"><strong>paginate_queryset</strong></a>(queryset, request, page_size)</dt><dd><span class="code">Paginate&nbsp;a&nbsp;queryset&nbsp;and&nbsp;return&nbsp;the&nbsp;page&nbsp;object<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;queryset:&nbsp;The&nbsp;queryset&nbsp;to&nbsp;paginate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;page_size:&nbsp;The&nbsp;number&nbsp;of&nbsp;items&nbsp;per&nbsp;page<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;page_obj:&nbsp;The&nbsp;paginated&nbsp;page&nbsp;object</span></dd></dl>
+ <dl><dt><a name="-post_list_component"><strong>post_list_component</strong></a>(request, pk)</dt><dd><span class="code">Display&nbsp;a&nbsp;partial&nbsp;list&nbsp;of&nbsp;posts&nbsp;from&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;post&nbsp;list&nbsp;component</span></dd></dl>
+ <dl><dt><a name="-post_message"><strong>post_message</strong></a>(request, post_id)</dt><dd><span class="code">Post&nbsp;a&nbsp;message&nbsp;to&nbsp;a&nbsp;target&nbsp;channel&nbsp;using&nbsp;a&nbsp;delayed&nbsp;task<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;post_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;post<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;post&nbsp;element&nbsp;with&nbsp;the&nbsp;task&nbsp;ID</span></dd></dl>
+ <dl><dt><a name="-post_reject"><strong>post_reject</strong></a>(request, post_id)</dt><dd><span class="code">Reject&nbsp;a&nbsp;post&nbsp;by&nbsp;ID<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;post_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;post<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;post&nbsp;element&nbsp;with&nbsp;the&nbsp;rejected&nbsp;post&nbsp;details</span></dd></dl>
+ <dl><dt><a name="-search_source"><strong>search_source</strong></a>(request)</dt><dd><span class="code">Search&nbsp;for&nbsp;a&nbsp;source&nbsp;channel&nbsp;by&nbsp;name<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;list&nbsp;with&nbsp;the&nbsp;search&nbsp;results</span></dd></dl>
+ <dl><dt><a name="-search_target"><strong>search_target</strong></a>(request)</dt><dd><span class="code">Search&nbsp;for&nbsp;a&nbsp;target&nbsp;channel&nbsp;by&nbsp;name<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;target&nbsp;list&nbsp;with&nbsp;the&nbsp;search&nbsp;results</span></dd></dl>
+ <dl><dt><a name="-signup"><strong>signup</strong></a>(request)</dt><dd><span class="code">Handle&nbsp;user&nbsp;registration<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;registration&nbsp;page&nbsp;with&nbsp;the&nbsp;signup&nbsp;form</span></dd></dl>
+ <dl><dt><a name="-source_detail"><strong>source_detail</strong></a>(request, pk)</dt><dd><span class="code">Display&nbsp;details&nbsp;of&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;source&nbsp;detail&nbsp;page&nbsp;with&nbsp;the&nbsp;channel&nbsp;and&nbsp;posts</span></dd></dl>
+ <dl><dt><a name="-source_list"><strong>source_list</strong></a>(request)</dt><dd><span class="code">Display&nbsp;a&nbsp;list&nbsp;of&nbsp;source&nbsp;channels<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;source&nbsp;list&nbsp;page&nbsp;with&nbsp;the&nbsp;paginated&nbsp;channels</span></dd></dl>
+ <dl><dt><a name="-source_list_component"><strong>source_list_component</strong></a>(request)</dt><dd><span class="code">Display&nbsp;a&nbsp;partial&nbsp;list&nbsp;of&nbsp;source&nbsp;channels<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;list&nbsp;component</span></dd></dl>
+ <dl><dt><a name="-target_list"><strong>target_list</strong></a>(request)</dt><dd><span class="code">Display&nbsp;a&nbsp;list&nbsp;of&nbsp;target&nbsp;channels<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;target&nbsp;list&nbsp;page&nbsp;with&nbsp;the&nbsp;paginated&nbsp;channels</span></dd></dl>
+ <dl><dt><a name="-unlink_target"><strong>unlink_target</strong></a>(request, source_id, target_id)</dt><dd><span class="code">Unlink&nbsp;a&nbsp;target&nbsp;channel&nbsp;from&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;DELETE<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;target_id:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HttpResponse:&nbsp;A&nbsp;response&nbsp;indicating&nbsp;the&nbsp;unlinking&nbsp;was&nbsp;successful</span></dd></dl>
+ <dl><dt><a name="-update_detail_active_following"><strong>update_detail_active_following</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;the&nbsp;active&nbsp;status&nbsp;of&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;detail&nbsp;element&nbsp;with&nbsp;the&nbsp;updated&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-update_detail_source"><strong>update_detail_source</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;the&nbsp;details&nbsp;of&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;source&nbsp;detail&nbsp;form&nbsp;or&nbsp;the&nbsp;partial&nbsp;source&nbsp;detail&nbsp;element&nbsp;with&nbsp;the&nbsp;updated&nbsp;channel</span></dd></dl>
+ <dl><dt><a name="-update_post_list"><strong>update_post_list</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;post&nbsp;from&nbsp;list&nbsp;of&nbsp;posts&nbsp;for&nbsp;specific&nbsp;source<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;post<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;post&nbsp;modal&nbsp;form&nbsp;or&nbsp;the&nbsp;post&nbsp;list&nbsp;with&nbsp;the&nbsp;updated&nbsp;post</span></dd></dl>
+ <dl><dt><a name="-update_source"><strong>update_source</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;source&nbsp;modal&nbsp;form&nbsp;or&nbsp;the&nbsp;source&nbsp;list&nbsp;with&nbsp;the&nbsp;updated&nbsp;channel</span></dd></dl>
+ <dl><dt><a name="-update_source_status"><strong>update_source_status</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;the&nbsp;active&nbsp;status&nbsp;of&nbsp;a&nbsp;source&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;element&nbsp;with&nbsp;the&nbsp;updated&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-update_target"><strong>update_target</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;a&nbsp;target&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;GET,&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;target&nbsp;modal&nbsp;form&nbsp;or&nbsp;the&nbsp;target&nbsp;list&nbsp;with&nbsp;the&nbsp;updated&nbsp;channel</span></dd></dl>
+ <dl><dt><a name="-update_target_status"><strong>update_target_status</strong></a>(request, pk)</dt><dd><span class="code">Update&nbsp;the&nbsp;auto&nbsp;post&nbsp;status&nbsp;of&nbsp;a&nbsp;target&nbsp;channel<br>
+&nbsp;<br>
+Methods:&nbsp;POST<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;target&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;target&nbsp;element&nbsp;with&nbsp;the&nbsp;updated&nbsp;status</span></dd></dl>
+ <dl><dt><a name="-verify_detail_source"><strong>verify_detail_source</strong></a>(request, pk)</dt><dd><span class="code">Verify&nbsp;the&nbsp;source&nbsp;channel&nbsp;using&nbsp;a&nbsp;delayed&nbsp;task<br>
+&nbsp;<br>
+Methods:&nbsp;GET<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;request:&nbsp;The&nbsp;request&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pk:&nbsp;The&nbsp;primary&nbsp;key&nbsp;of&nbsp;the&nbsp;source&nbsp;channel<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render:&nbsp;Render&nbsp;the&nbsp;partial&nbsp;source&nbsp;detail&nbsp;element&nbsp;with&nbsp;the&nbsp;task&nbsp;ID</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>post_message_task</strong> = &lt;@task: tracker.tasks.post_message_task of core&gt;<br>
+<strong>settings</strong> = &lt;LazySettings "core.settings"&gt;<br>
+<strong>validate_link_task</strong> = &lt;@task: tracker.tasks.validate_link_task of core&gt;</td></tr></table>
+</body></html>
