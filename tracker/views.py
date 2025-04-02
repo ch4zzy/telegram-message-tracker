@@ -1,12 +1,12 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_GET, require_POST
 
+from .decorators import require_auth
 from .forms import (
     CreateSourceChannelForm,
     CreateTargetChannelForm,
@@ -18,6 +18,19 @@ from .forms import (
 )
 from .models import Post, SourceChannel, TargetChannel
 from .tasks import post_message_task, validate_link_task
+
+
+def index(request):
+    """
+    Display the index page
+
+    Methods: GET
+    Args:
+        request: The request object
+    Returns:
+        render: Render the index page
+    """
+    return render(request, "tracker/instructions.html")
 
 
 def paginate_queryset(queryset, request, page_size):
@@ -85,7 +98,7 @@ def signup(request):
 
 
 @require_GET
-@login_required
+@require_auth
 def source_list(request):
     """
     Display a list of source channels
@@ -108,7 +121,7 @@ def source_list(request):
 
 
 @require_GET
-@login_required
+@require_auth
 def source_list_component(request):
     """
     Display a partial list of source channels
@@ -130,7 +143,7 @@ def source_list_component(request):
 
 
 @require_GET
-@login_required
+@require_auth
 def post_list_component(request, pk):
     """
     Display a partial list of posts from a source channel
@@ -159,7 +172,7 @@ def post_list_component(request, pk):
 
 
 @require_GET
-@login_required
+@require_auth
 def target_list(request):
     """
     Display a list of target channels
@@ -182,7 +195,7 @@ def target_list(request):
 
 
 @require_GET
-@login_required
+@require_auth
 def source_detail(request, pk):
     """
     Display details of a source channel
@@ -254,7 +267,7 @@ def check_email(request):
 
 
 @require_POST
-@login_required
+@require_auth
 def update_source_status(request, pk):
     """
     Update the active status of a source channel
@@ -278,7 +291,7 @@ def update_source_status(request, pk):
 
 
 @require_POST
-@login_required
+@require_auth
 def update_target_status(request, pk):
     """
     Update the auto post status of a target channel
@@ -301,7 +314,7 @@ def update_target_status(request, pk):
         )
 
 
-@login_required
+@require_auth
 def delete_source(request, pk):
     """
     Delete a source channel
@@ -318,7 +331,7 @@ def delete_source(request, pk):
     return HttpResponse("<div></div>")
 
 
-@login_required
+@require_auth
 def delete_target(request, pk):
     """
     Delete a target channel
@@ -335,7 +348,7 @@ def delete_target(request, pk):
     return HttpResponse("<div></div>")
 
 
-@login_required
+@require_auth
 def create_source(request):
     """
     Create a new source channel
@@ -381,7 +394,7 @@ def create_source(request):
     )
 
 
-@login_required
+@require_auth
 def create_target(request):
     """
     Create a new target channel
@@ -426,7 +439,7 @@ def create_target(request):
     )
 
 
-@login_required
+@require_auth
 def update_source(request, pk):
     """
     Update a source channel
@@ -458,7 +471,7 @@ def update_source(request, pk):
         )
 
 
-@login_required
+@require_auth
 def update_target(request, pk):
     """
     Update a target channel
@@ -491,7 +504,7 @@ def update_target(request, pk):
         )
 
 
-@login_required
+@require_auth
 def update_post_list(request, pk):
     """
     Update post from list of posts for specific source
@@ -523,7 +536,7 @@ def update_post_list(request, pk):
         )
 
 
-@login_required
+@require_auth
 def search_source(request):
     """
     Search for a source channel by name
@@ -543,7 +556,7 @@ def search_source(request):
     return render(request, "tracker/partials/source_list.html", context)
 
 
-@login_required
+@require_auth
 def search_target(request):
     """
     Search for a target channel by name
@@ -563,7 +576,7 @@ def search_target(request):
     return render(request, "tracker/partials/target_list.html", context)
 
 
-@login_required
+@require_auth
 def check_source_link(request, pk):
     """
     Check the status of a source channel link
@@ -586,7 +599,7 @@ def check_source_link(request, pk):
     )
 
 
-@login_required
+@require_auth
 def check_target_link(request, pk):
     """
     Check the status of a target channel link
@@ -609,7 +622,7 @@ def check_target_link(request, pk):
     )
 
 
-@login_required
+@require_auth
 def check_target_bot(request, pk):
     """
     Check the status of a target channel bot
@@ -632,7 +645,7 @@ def check_target_bot(request, pk):
     )
 
 
-@login_required
+@require_auth
 def get_source(request, pk):
     """
     Check the status of a SourceChannel link
@@ -652,7 +665,7 @@ def get_source(request, pk):
     )
 
 
-@login_required
+@require_auth
 def get_target(request, pk):
     """
     Check the status of a TargetChannel link
@@ -667,7 +680,7 @@ def get_target(request, pk):
     )
 
 
-@login_required
+@require_auth
 def unlink_target(request, source_id, target_id):
     """
     Unlink a target channel from a source channel
@@ -688,7 +701,7 @@ def unlink_target(request, source_id, target_id):
     return HttpResponse(status=405)
 
 
-@login_required
+@require_auth
 def get_target_modal(request, source_id):
     """
     Display a modal form to link a target channel to a source channel
@@ -710,7 +723,7 @@ def get_target_modal(request, source_id):
     )
 
 
-@login_required
+@require_auth
 def link_target(request, source_id, target_id):
     """
     Link a target channel to a source channel
@@ -734,7 +747,7 @@ def link_target(request, source_id, target_id):
     return HttpResponse(status=405)
 
 
-@login_required
+@require_auth
 def get_linked_targets(request, source_id):
     """
     Get a list of linked target channels for a source channel
@@ -752,7 +765,7 @@ def get_linked_targets(request, source_id):
     return render(request, "tracker/partials/linked_target_list.html", context)
 
 
-@login_required
+@require_auth
 @require_POST
 def post_message(request, post_id):
     """
@@ -771,7 +784,7 @@ def post_message(request, post_id):
     return render(request, "tracker/partials/post_element.html", context)
 
 
-@login_required
+@require_auth
 @require_POST
 def post_reject(request, post_id):
     """
@@ -791,7 +804,7 @@ def post_reject(request, post_id):
     return render(request, "tracker/partials/post_element.html", context)
 
 
-@login_required
+@require_auth
 @require_GET
 def get_post(request, post_id):
     """
@@ -809,7 +822,7 @@ def get_post(request, post_id):
     return render(request, "tracker/partials/post_element.html", context)
 
 
-@login_required
+@require_auth
 def filter_posts(request, pk):
     """
     Filter posts by status and query
@@ -837,7 +850,7 @@ def filter_posts(request, pk):
     )
 
 
-@login_required
+@require_auth
 def update_detail_source(request, pk):
     """
     Update the details of a source channel
@@ -880,7 +893,7 @@ def update_detail_source(request, pk):
     )
 
 
-@login_required
+@require_auth
 def update_detail_active_following(request, pk):
     """
     Update the active status of a source channel
@@ -903,7 +916,7 @@ def update_detail_active_following(request, pk):
     )
 
 
-@login_required
+@require_auth
 def verify_detail_source(request, pk):
     """
     Verify the source channel using a delayed task

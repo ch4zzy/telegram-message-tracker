@@ -8,25 +8,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/source/">Listeners</a>
+                    <a class="nav-link active" href="/source/">Listeners</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="/target/">Targets</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Posts</a>
+                    <a class="nav-link active" href="/">Instructions</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 {% if not request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link active" href="/login/">Login</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
                         <form method="post" action="{% url 'logout' %}" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-link nav-link" style="padding: 0; border: none;">
+                            <button type="submit" class="btn btn-link nav-link active" style="padding: 0; border: none;">
                                 Logout
                             </button>
                         </form>
