@@ -1,5 +1,7 @@
-from django.shortcuts import render
 from functools import wraps
+
+from django.shortcuts import render
+
 
 def require_auth(view_func):
     @wraps(view_func)
@@ -7,4 +9,5 @@ def require_auth(view_func):
         if not request.user.is_authenticated:
             return render(request, "tracker/auth_required.html", status=403)
         return view_func(request, *args, **kwargs)
+
     return wrapper
