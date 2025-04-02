@@ -41,4 +41,4 @@ jobs:
 
       - name: Run migrations
         run: |
-          docker-compose exec -f docker-compose-dev.yml -T django python manage.py migrate || { echo 'Migrations failed'; exit 1; }
+          docker-compose -f docker-compose-dev.yml exec -T django python manage.py migrate || { echo 'Migrations failed'; exit 1; }
