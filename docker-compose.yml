@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
     django:
         build:
@@ -15,6 +17,8 @@ services:
             - celery-management
             - celery-listener
             - celery-poster
+        networks:
+            - private_network
 
     db:
         image: postgres:17-alpine
@@ -24,14 +28,16 @@ services:
             - "5432:5432"
         volumes:
             - postgres_data:/var/lib/postgresql/data
+        networks:
+            - private_network
 
     redis:
         image: redis:alpine
         command: redis-server --save "" --appendonly no
-        ports:
-            - "6379:6379"
         volumes:
             - redis-data:/data
+        networks:
+            - private_network
 
     celery-management:
         build:
@@ -45,6 +51,8 @@ services:
         depends_on:
             - db
             - redis
+        networks:
+            - private_network
 
     celery-listener:
         build:
@@ -58,6 +66,8 @@ services:
         depends_on:
             - db
             - redis
+        networks:
+            - private_network
 
     celery-poster:
         build:
@@ -71,6 +81,8 @@ services:
         depends_on:
             - db
             - redis
+        networks:
+            - private_network
 
     celery-beat:
         build:
@@ -84,6 +96,8 @@ services:
         depends_on:
             - db
             - redis
+        networks:
+            - private_network
 
 volumes:
     postgres_data:
@@ -92,3 +106,7 @@ volumes:
         driver_opts:
             type: tmpfs
             device: tmpfs
+
+networks:
+    private_network:
+        driver: bridge
