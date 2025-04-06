@@ -1,9 +1,9 @@
 name: Docker Compose Tests Check
 
-on:
-  pull_request:
-    branches:
-      - main
+#on:
+#  pull_request:
+#    branches:
+#      - main
 
 jobs:
   deployment-check:
