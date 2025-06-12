@@ -6,7 +6,7 @@
                 <span class="input-group-text bg-white">
                     <i class="bi bi-search"></i>
                 </span>
-                <input type="search" class="form-control" placeholder="Search posts" name="query"
+                <input id="search-input" type="search" class="form-control" placeholder="Search posts" name="query"
                        hx-post="{% url 'filter_posts' channel.pk %}"
                        hx-trigger="keyup changed delay:500ms"
                        hx-target="#post-list"
