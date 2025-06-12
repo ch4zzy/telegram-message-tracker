@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.postgres.search import SearchVector
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -835,16 +836,19 @@ def filter_posts(request, pk):
         render: Render the partial post list with the filtered posts
     """
     status = request.GET.get("status", "all")
-    query = request.GET.get("query", "")
+    query = request.GET.get("query")
     posts = Post.objects.filter(channel_id=pk)
+
     if status != "all":
-        posts = paginate_queryset(
-            posts.filter(status=status), request, settings.PAGE_SIZE
-        )
+        posts = posts.filter(status=status)
+
     if query:
-        posts = paginate_queryset(
-            posts.filter(content__icontains=query), request, settings.PAGE_SIZE
-        )
+        posts = posts.annotate(
+            search=SearchVector("content", config="simple")
+        ).filter(search=query)
+
+    posts = paginate_queryset(posts, request, settings.PAGE_SIZE)
+
     return render(
         request, "tracker/partials/post_list.html", {"page_obj": posts}
     )

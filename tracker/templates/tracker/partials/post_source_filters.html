@@ -7,7 +7,7 @@
                     <i class="bi bi-search"></i>
                 </span>
                 <input id="search-input" type="search" class="form-control" placeholder="Search posts" name="query"
-                       hx-post="{% url 'filter_posts' channel.pk %}"
+                       hx-get="{% url 'filter_posts' channel.pk %}"
                        hx-trigger="keyup changed delay:500ms"
                        hx-target="#post-list"
                        hx-include="#search-input"
